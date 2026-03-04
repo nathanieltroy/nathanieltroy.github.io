@@ -1,0 +1,262 @@
+/* ===== BASE STYLES - Global for all pages ===== */
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Dark theme variables (PRIMARY - default) - Cyberpunk/Sci-Fi */
+:root {
+    /* Font variables - Modern, geometric, futuristic */
+    --font-display: 'Syne', sans-serif;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    
+    /* Dark theme - Cyberpunk/Neon (PRIMARY) */
+    --primary-bg: #0a0c10;
+    --secondary-bg: #111418;
+    --text-primary: #e2e9ff;
+    --text-secondary: #9bb8ff;
+    --text-muted: #62748c;
+    --accent-primary: #00ffff;  /* Cyan neon */
+    --accent-secondary: #ff00c1;  /* Magenta neon */
+    --accent-tertiary: #7700ff;  /* Purple neon for gradients */
+    --accent-soft: rgba(0, 255, 255, 0.15);
+    --card-bg: #151a24;
+    --body-bg: #0c0f15;
+    --border-light: #2a3440;
+    --skill-bg: rgba(0, 255, 255, 0.1);
+    --theme-toggle-bg: rgba(0, 255, 255, 0.15);
+    --overlay-start: rgba(0, 255, 255, 0.8);
+    --overlay-end: rgba(0, 255, 255, 0.3);
+    --shadow: rgba(0, 255, 255, 0.2);
+    --glow: rgba(0, 255, 255, 0.4);
+    
+    /* Gradient for featured projects line */
+    --gradient-multicolor: linear-gradient(90deg, #00ffff, #ff00c1, #7700ff, #00ffff);
+}
+
+/* Light theme - Bold & Masculine (Industrial/Urban) */
+.light-theme {
+    /* Font variables - Same modern fonts */
+    --font-display: 'Syne', sans-serif;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    
+    /* Light theme - Industrial Bold */
+    --primary-bg: #e8e9eb;  /* Concrete grey */
+    --secondary-bg: #d1d3d7;  /* Darker concrete */
+    --text-primary: #1a1e24;  /* Charcoal black */
+    --text-secondary: #2f3a4a;  /* Deep slate */
+    --text-muted: #5c6a7a;  /* Industrial blue-grey */
+    --accent-primary: #56817e;  /* Your new accent - Sage/muted teal */
+    --accent-secondary: #2c5f2d;  /* Forest green (contrast) */
+    --accent-tertiary: #1b5299;  /* Deep steel blue */
+    --accent-soft: rgba(86, 129, 126, 0.15);  /* Sage with opacity */
+    --card-bg: #ffffff;
+    --body-bg: #f0f2f5;  /* Off-white with grey tint */
+    --border-light: #b7bcc4;  /* Industrial grey */
+    --skill-bg: #d6dadf;  /* Light industrial grey */
+    --theme-toggle-bg: #b7bcc4;  /* Industrial grey */
+    --overlay-start: rgba(86, 129, 126, 0.85);  /* Your sage start */
+    --overlay-end: rgba(27, 82, 153, 0.6);  /* Steel blue end */
+    --shadow: rgba(26, 30, 36, 0.25);  /* Charcoal shadow */
+    --glow: rgba(86, 129, 126, 0.3);  /* Your sage glow */
+    
+    /* Gradient for featured projects line - Updated with your new accent */
+    --gradient-multicolor: linear-gradient(90deg, #91bbb8, #2c5f2d, #0d2a4e, #91bbb8);
+}
+
+body {
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--body-bg);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ===== LEFT BANNER BASE STYLES ===== */
+.left-banner {
+    width: 420px;
+    background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+    color: var(--text-primary);
+    padding: 2rem 1.5rem;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px var(--shadow);
+    transition: background 0.3s ease;
+    font-family: var(--font-body);
+    font-weight: 300;
+}
+
+/* Scrollbar styling */
+.left-banner::-webkit-scrollbar {
+    width: 5px;
+}
+
+.left-banner::-webkit-scrollbar-track {
+    background: var(--secondary-bg);
+}
+
+.left-banner::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 5px;
+}
+
+/* ===== THEME TOGGLE BASE STYLES ===== */
+.theme-toggle {
+    position: relative;
+    top: auto;
+    right: auto;
+    z-index: 10;
+}
+
+.theme-switch {
+    background: var(--theme-toggle-bg);
+    border: none;
+    border-radius: 50px;
+    width: 70px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.3s ease;
+}
+
+.theme-switch i {
+    font-size: 16px;
+    color: var(--text-primary);
+    z-index: 2;
+    position: relative;
+    width: 50%;
+    text-align: center;
+}
+
+.theme-switch .fa-sun {
+    opacity: 1;
+}
+
+.theme-switch .fa-moon {
+    opacity: 0;
+}
+
+.dark-theme .theme-switch .fa-sun {
+    opacity: 0;
+}
+
+.dark-theme .theme-switch .fa-moon {
+    opacity: 1;
+}
+
+.theme-switch::after {
+    content: '';
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    top: 1px;
+    left: 1px;
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.dark-theme .theme-switch::after {
+    transform: translateX(32px);
+}
+
+/* ===== SOCIAL LINKS BASE STYLES ===== */
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--theme-toggle-bg);
+    border-radius: 50%;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: var(--accent-primary);
+    transform: translateY(-3px);
+}
+
+.social-icon .fa-file-pdf,
+.social-icon .fa-file-lines {
+    font-size: 1.2rem;
+}
+
+/* ===== RIGHT CONTENT BASE STYLES ===== */
+.right-content {
+    flex: 1;
+    margin-left: 420px;
+    padding: 3rem;
+    background-color: var(--body-bg);
+    transition: background-color 0.3s ease;
+}
+
+/* ===== ANIMATIONS & UTILITIES ===== */
+@keyframes fade {
+    from {opacity: 0.4;}
+    to {opacity: 1;}
+}
+
+@keyframes flipDiagonal {
+    0% { transform: rotate3d(1, -1, 0, 0deg); }
+    49.99% { transform: rotate3d(1, -1, 0, 90deg); }
+    50% { transform: rotate3d(1, -1, 0, 270deg); }
+    100% { transform: rotate3d(1, -1, 0, 360deg); }
+}
+
+/* White fade effect classes */
+.project-tile .slide.fade-to-white {
+    filter: brightness(5) blur(2px) hue-rotate(10deg) !important;
+}
+
+.project-tile .slide.fade-from-white {
+    filter: brightness(1) !important;
+}
+
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+/* ===== PAGE TRANSITION EFFECTS ===== */
+.page-transition .left-banner {
+    transition: width 0.5s ease, background 0.5s ease, box-shadow 0.5s ease;
+}
+
+.page-transition .right-content {
+    transition: margin-left 0.5s ease, padding 0.5s ease;
+}
+
+/* Optional: Add a fade effect to the entire container */
+.page-transition .container {
+    transition: opacity 0.3s ease;
+    opacity: 0.98;
+}

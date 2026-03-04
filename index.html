@@ -2,35 +2,32 @@
 <html lang="en">
 <head>
     <script>
-    // Run IMMEDIATELY before page renders
-    console.log('========== INLINE SCRIPT RUNNING ==========');
-    console.log('📍 Page:', window.location.href);
-    
-    const savedTheme = localStorage.getItem('theme');
-    console.log('📦 Read from localStorage:', savedTheme);
-    
-    if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark-theme');
-        console.log('🎨 Applied: dark theme');
-    } else if (savedTheme === 'light') {
-        document.documentElement.classList.remove('dark-theme');
-        console.log('🎨 Applied: light theme');
-    } else {
-        console.log('🎨 No saved theme - keeping default');
-    }
-    console.log('==========================================');
+        // Run IMMEDIATELY before page renders
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme === 'light') {
+            document.documentElement.classList.add('light-theme');
+        } else if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark-theme');
+        } else {
+            // No saved theme - default to DARK
+            document.documentElement.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+        }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nathaniel Troy Portfolio</title>
+
     <!-- Font Awesome for icons (updated to include all icon sets) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts for new font scheme: Archivo Black, Archivo Narrow, Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo+Narrow:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- Link to CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
     <div class="container">
@@ -90,51 +87,51 @@
                 </div>
             </div>
 
-            <!-- Timeline Section -->
+            <!-- Timeline Section (homepage only) -->
             <div class="timeline-section">
-                <h3>Experience & Education</h3>
+                <h3>Education & Experience</h3>
                 <div class="timeline">
-                    <!-- Work Experience 1 -->
+                    <!-- Timeline Item 1 -->
                     <div class="timeline-item">
+                        <div class="timeline-left">
+                            <span class="timeline-year">2023</span>
+                        </div>
                         <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-date">2021 - Present</span>
-                            <h4>Senior Data Scientist</h4>
-                            <p class="timeline-company">Tech Company</p>
-                            <p class="timeline-description">Leading ML initiatives and building predictive models.</p>
+                        <div class="timeline-right">
+                            <div class="timeline-header">
+                                <div class="timeline-title-group">
+                                    <h4>Job Title</h4>
+                                    <span class="timeline-company">Company Name</span>
+                                </div>
+                                <button class="timeline-toggle">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div class="timeline-description">
+                                <p>Description of your role, responsibilities, and achievements. This can be multiple sentences that describe what you did and accomplished.</p>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Work Experience 2 -->
+                    
+                    <!-- Timeline Item 2 -->
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-date">2018 - 2021</span>
-                            <h4>Data Analyst</h4>
-                            <p class="timeline-company">Another Company</p>
-                            <p class="timeline-description">Analyzed customer behavior and created dashboards.</p>
+                        <div class="timeline-left">
+                            <span class="timeline-year">2022</span>
                         </div>
-                    </div>
-
-                    <!-- Education 1 -->
-                    <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-date">2016 - 2018</span>
-                            <h4>M.S. in Data Science</h4>
-                            <p class="timeline-company">University Name</p>
-                            <p class="timeline-description">Focus on machine learning and statistical modeling.</p>
-                        </div>
-                    </div>
-
-                    <!-- Education 2 -->
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-date">2012 - 2016</span>
-                            <h4>B.S. in Computer Science</h4>
-                            <p class="timeline-company">University Name</p>
-                            <p class="timeline-description">Minor in Mathematics.</p>
+                        <div class="timeline-right">
+                            <div class="timeline-header">
+                                <div class="timeline-title-group">
+                                    <h4>Previous Job Title</h4>
+                                    <span class="timeline-company">Previous Company</span>
+                                </div>
+                                <button class="timeline-toggle">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div class="timeline-description">
+                                <p>Description of your previous role, responsibilities, and achievements.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,5 +151,44 @@
     <script src="theme-manager.js"></script>  <!-- Load this FIRST -->
     <script src="projects-data.js"></script>  <!-- Then others -->
     <script src="script.js"></script>  <!-- or project_page_sample.js -->
+
+    <!-- Enhanced Page Transition Script -->
+    <script>
+        (function() {
+            // Check if we're coming from a transition
+            if (sessionStorage.getItem('pageTransition') === 'true') {
+                document.body.classList.add('page-transition');
+                sessionStorage.removeItem('pageTransition');
+                
+                // Remove transition class after animation completes
+                setTimeout(() => {
+                    document.body.classList.remove('page-transition');
+                }, 500);
+            }
+            
+            // Add transition flag when clicking internal links
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('a');
+                if (!link) return;
+                
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                // Check if it's an internal link
+                if (href.includes('index.html') || 
+                    href.includes('project') || 
+                    href === '/' || 
+                    href.startsWith('#')) {
+                    
+                    // Skip if new tab
+                    if (link.target === '_blank') return;
+                    
+                    // Set transition flag
+                    sessionStorage.setItem('pageTransition', 'true');
+                }
+            });
+        })();
+    </script>
+
 </body>
 </html>

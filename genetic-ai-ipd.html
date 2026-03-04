@@ -3,55 +3,40 @@
 <head>
     <script>
     // Run IMMEDIATELY before page renders
-    console.log('========== INLINE SCRIPT RUNNING ==========');
-    console.log('📍 Page:', window.location.href);
-    
     const savedTheme = localStorage.getItem('theme');
-    console.log('📦 Read from localStorage:', savedTheme);
     
-    if (savedTheme === 'dark') {
+    if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-theme');
+    } else if (savedTheme === 'dark') {
         document.documentElement.classList.add('dark-theme');
-        console.log('🎨 Applied: dark theme');
-    } else if (savedTheme === 'light') {
-        document.documentElement.classList.remove('dark-theme');
-        console.log('🎨 Applied: light theme');
-    } else {
-        console.log('🎨 No saved theme - keeping default');
     }
-    console.log('==========================================');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Name | Nathaniel Troy</title>
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo+Narrow:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <!-- Link to CSS -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Link to project-specific CSS -->
-    <link rel="stylesheet" href="project-page.css">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="project_page_sample.css">
+    
 </head>
 <body>
     <div class="container">
-        <!-- LEFT BANNER SECTION (same as main page) -->
+        <!-- LEFT BANNER - Narrow version with all icons -->
         <aside class="left-banner">
-            <!-- Profile Image -->
-            <div class="profile-image">
-                <img src="images/profile picture.png" alt="Profile Photo" id="profile-img">
-            </div>
-
-            <!-- Name and Title -->
-            <div class="profile-info">
-                <h1 class="name">Nathaniel Troy</h1>
-                <h2 class="title">Data Science Graduate</h2>
-                <p class="location"><i class="fas fa-map-marker-alt"></i> Tullamore, Ireland</p>
-            </div>
-
-            <!-- Social Icons and Theme Toggle -->
             <div class="social-links">
+                <!-- Back to Portfolio - House Icon -->
+                <a href="index.html" class="social-icon back-link">
+                    <i class="fas fa-home"></i>
+                </a>
+                
+                <!-- Social Icons -->
                 <a href="https://www.linkedin.com/in/nathaniel-troy-040066289" target="_blank" class="social-icon">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
@@ -64,196 +49,183 @@
                 <a href="mailto:your.email@example.com" class="social-icon">
                     <i class="fas fa-envelope"></i>
                 </a>
-                <!-- Theme Toggle -->
-                <div class="theme-toggle">
-                    <button class="theme-switch" id="theme-switch">
-                        <i class="fas fa-sun"></i>
-                        <i class="fas fa-moon"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Back to Portfolio Link -->
-            <div class="back-to-portfolio">
-                <a href="index.html" class="back-link">
-                    <i class="fas fa-arrow-left"></i> Back to Portfolio
-                </a>
-            </div>
-
-            <!-- Project Meta Info (visible in left banner) -->
-            <div class="project-meta">
-                <div class="meta-item">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span class="meta-label">Date:</span>
-                    <span class="meta-value">January 2024</span>
-                </div>
-                <div class="meta-item">
-                    <i class="fas fa-tags"></i>
-                    <span class="meta-label">Category:</span>
-                    <span class="meta-value">Data Science</span>
-                </div>
-                <div class="meta-item">
-                    <i class="fas fa-code"></i>
-                    <span class="meta-label">Technologies:</span>
-                    <span class="meta-value">Python, TensorFlow, Scikit-learn</span>
-                </div>
-            </div>
-
-            <!-- Project Links -->
-            <div class="project-links">
-                <a href="#" target="_blank" class="project-link-btn">
-                    <i class="fab fa-github"></i> View Code
-                </a>
-                <a href="#" target="_blank" class="project-link-btn">
-                    <i class="fas fa-external-link-alt"></i> Live Demo
-                </a>
+                
+                <!-- Theme Toggle - Vertical Pill -->
+                <button class="theme-switch" id="theme-switch">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
         </aside>
 
-        <!-- RIGHT CONTENT - PROJECT DETAILS -->
-        <main class="right-content project-page-content">
-            <!-- Project Header -->
-            <header class="project-header">
-                <h1 class="project-page-title">Project Name</h1>
-                <p class="project-page-subtitle">A brief subtitle or tagline for the project</p>
-            </header>
-
-            <!-- Project Gallery -->
-            <div class="project-gallery">
-                <div class="gallery-main">
-                    <img src="images/projects/project1/main.jpg" alt="Project main image" id="gallery-main-img">
-                </div>
-                <div class="gallery-thumbnails">
-                    <img src="images/projects/project1/thumb1.jpg" alt="Thumbnail 1" class="gallery-thumb active" onclick="changeGalleryImage(this)">
-                    <img src="images/projects/project1/thumb2.jpg" alt="Thumbnail 2" class="gallery-thumb" onclick="changeGalleryImage(this)">
-                    <img src="images/projects/project1/thumb3.jpg" alt="Thumbnail 3" class="gallery-thumb" onclick="changeGalleryImage(this)">
-                    <img src="images/projects/project1/thumb4.jpg" alt="Thumbnail 4" class="gallery-thumb" onclick="changeGalleryImage(this)">
-                </div>
-            </div>
-
-            <!-- Project Overview -->
-            <section class="project-section">
-                <h2 class="section-heading">Overview</h2>
-                <div class="section-content">
-                    <p>This is where you'll write a comprehensive overview of the project. Explain the problem you were solving, the goals you set out to achieve, and the overall approach you took. This section should give readers a clear understanding of what the project is about and why it matters.</p>
-                    <p>You can add multiple paragraphs here to provide more detail. The typography is set to be highly readable with the Montserrat font family you've chosen for body text.</p>
-                </div>
-            </section>
-
-            <!-- Key Features -->
-            <section class="project-section">
-                <h2 class="section-heading">Key Features</h2>
-                <div class="section-content">
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> <strong>Feature 1:</strong> Description of the first key feature and its importance.</li>
-                        <li><i class="fas fa-check-circle"></i> <strong>Feature 2:</strong> Description of the second key feature and how it adds value.</li>
-                        <li><i class="fas fa-check-circle"></i> <strong>Feature 3:</strong> Description of the third key feature with technical details.</li>
-                        <li><i class="fas fa-check-circle"></i> <strong>Feature 4:</strong> Description of the fourth key feature and its implementation.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Technical Implementation -->
-            <section class="project-section">
-                <h2 class="section-heading">Technical Implementation</h2>
-                <div class="section-content">
-                    <p>Deep dive into the technical aspects of your project. Discuss the technologies, frameworks, and methodologies you used. This is where you can showcase your technical expertise.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>
-# Example code snippet
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
-
-# Load and prepare data
-data = pd.read_csv('dataset.csv')
-X_train, X_test, y_train, y_test = train_test_split(
-    data.features, data.target, test_size=0.2, random_state=42
-)
-                        </code></pre>
+        <!-- RIGHT CONTENT - Newspaper Style Article -->
+        <main class="right-content">
+            <article class="article-container">
+                
+                <!-- Featured Image with Overlay Title -->
+                <div class="article-featured-image">
+                    <img src="images\genetic algorithm\image 1.jpeg" alt="Project featured image">
+                    <div class="image-overlay">
+                        <h1>Project Name: The Main Title That Tells a Story</h1>
                     </div>
-                    
-                    <p>Explain what the code above does and why you implemented it this way. This helps visitors understand your thought process and technical decisions.</p>
                 </div>
-            </section>
-
-            <!-- Results / Outcomes -->
-            <section class="project-section">
-                <h2 class="section-heading">Results & Outcomes</h2>
-                <div class="section-content">
-                    <p>Share the results of your project. What did you achieve? What metrics improved? Include any relevant data, charts, or feedback you received.</p>
-                    
-                    <div class="results-grid">
-                        <div class="result-card">
-                            <div class="result-number">95%</div>
-                            <div class="result-label">Accuracy</div>
-                        </div>
-                        <div class="result-card">
-                            <div class="result-number">2.5x</div>
-                            <div class="result-label">Speed Improvement</div>
-                        </div>
-                        <div class="result-card">
-                            <div class="result-number">10K+</div>
-                            <div class="result-label">Data Points</div>
+                
+                <!-- Article Subheading -->
+                <div class="article-subheading">
+                    A compelling subtitle that draws readers in and summarizes the project's essence in one elegant sentence.
+                </div>
+                
+                <!-- Article Meta Bar -->
+                <div class="article-meta-bar">
+                    <div class="author-info">
+                        <img src="images/profile picture.png" alt="Nathaniel Troy" class="author-avatar">
+                        <div class="author-details">
+                            <span class="author-name">Nathaniel Troy</span>
+                            <!-- REMOVED: <span class="author-title">Data Science Graduate</span> -->
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <!-- Challenges & Learnings -->
-            <section class="project-section">
-                <h2 class="section-heading">Challenges & Learnings</h2>
-                <div class="section-content">
-                    <p>Every project has challenges. Discuss what obstacles you faced and how you overcame them. This shows your problem-solving skills and resilience.</p>
                     
-                    <div class="challenge-item">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Challenge 1</h3>
-                        <p>Description of the challenge and how you addressed it.</p>
-                    </div>
-                    
-                    <div class="challenge-item">
-                        <h3><i class="fas fa-lightbulb"></i> Learning 1</h3>
-                        <p>What you learned from this experience and how it will inform future work.</p>
+                    <div class="meta-details">
+                        <div class="meta-detail-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>January 2024</span>
+                        </div>
+                        <div class="meta-detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="reading-time">5 min read</span>
+                        </div>
+                        <!-- ADDED: GitHub link -->
+                        <a href="https://github.com/nathanieltroy/project-name" target="_blank" class="meta-detail-item github-link">
+                            <i class="fab fa-github"></i>
+                            <span>View Code</span>
+                        </a>
                     </div>
                 </div>
-            </section>
-
-            <!-- Next Steps / Future Work -->
-            <section class="project-section">
-                <h2 class="section-heading">Future Work</h2>
-                <div class="section-content">
-                    <p>Discuss potential improvements, extensions, or related projects you're considering. This shows forward-thinking and continuous improvement.</p>
+                
+                <!-- Article Content -->
+                <div class="article-content" id="article-content">
                     
-                    <ul class="future-list">
-                        <li><i class="fas fa-arrow-right"></i> Planned improvement or feature addition</li>
-                        <li><i class="fas fa-arrow-right"></i> Potential research direction or enhancement</li>
-                        <li><i class="fas fa-arrow-right"></i> Scalability considerations for production deployment</li>
-                    </ul>
+                    <p>This is where you'll write a comprehensive overview of the project. Explain the problem you were solving, the goals you set out to achieve, and the overall approach you took. This section should give readers a clear understanding of what the project is about and why it matters. The typography is set to be highly readable with the Montserrat font family you've chosen for body text, and the line height is optimized for comfortable reading.</p>
+                    
+                    <p>You can add multiple paragraphs here to provide more detail. Each paragraph flows naturally into the next, creating a narrative that guides the reader through your thought process and the project's development. The generous spacing between paragraphs gives the eyes a rest and makes the content feel approachable rather than dense.</p>
+                    
+                    <!-- Pull Quote -->
+                    <div class="pull-quote">
+                        "The most elegant solutions often emerge from the simplest observations about the problem at hand."
+                    </div>
+                    
+                    <p>Deep dive into the technical aspects of your project. Discuss the technologies, frameworks, and methodologies you used. This is where you can showcase your technical expertise while maintaining the article's narrative flow. The key is to explain complex concepts in accessible language without oversimplifying.</p>
+                    
+                    <!-- Article Image with Caption -->
+                    <figure class="article-image">
+                        <img src="images/projects/project1/thumb1.jpg" alt="Technical implementation diagram">
+                        <figcaption>Figure 1: System architecture showing data flow between components</figcaption>
+                    </figure>
+                    
+                    <h2>Key Features</h2>
+                    
+                    <p>Describe the first key feature and its importance. Explain how it solves a particular problem and why you chose this approach. The description should be detailed enough to be informative but engaging enough to keep readers interested.</p>
+                    
+                    <p>The second key feature builds on the first, adding functionality that transforms the project from a simple solution into something truly innovative. Here you can discuss the challenges you faced during implementation and how you overcame them.</p>
+                    
+                    <!-- Image Grid for Multiple Images -->
+                    <div class="article-image-grid">
+                        <img src="images/projects/project1/thumb2.jpg" alt="Feature demonstration 1">
+                        <img src="images/projects/project1/thumb3.jpg" alt="Feature demonstration 2">
+                    </div>
+                    
+                    <h2>Results & Outcomes</h2>
+                    
+                    <p>Share the results of your project. What did you achieve? What metrics improved? Include any relevant data, charts, or feedback you received. The results section should demonstrate the project's impact while remaining grounded in the narrative you've built throughout the article.</p>
+                    
+                    <p>Every project has challenges. Discuss what obstacles you faced and how you overcame them. This shows your problem-solving skills and resilience, and adds a human element to the technical narrative.</p>
+                    
+                    <h2>Future Work</h2>
+                    
+                    <p>Discuss potential improvements, extensions, or related projects you're considering. This shows forward-thinking and continuous improvement, and invites readers to imagine what might come next.</p>
+                    
                 </div>
-            </section>
-
-            <!-- Navigation to other projects -->
-            <div class="project-navigation">
-                <a href="#" class="nav-link prev-project">
-                    <i class="fas fa-chevron-left"></i>
-                    <span>Previous Project</span>
-                </a>
-                <a href="index.html" class="nav-link all-projects">
-                    <i class="fas fa-th"></i>
-                    <span>All Projects</span>
-                </a>
-                <a href="#" class="nav-link next-project">
-                    <span>Next Project</span>
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-            </div>
+                
+                <!-- Project Navigation (keep from original) -->
+                <div class="project-navigation">
+                    <a href="#" class="nav-link prev-project">
+                        <i class="fas fa-chevron-left"></i>
+                        <span>Previous Project</span>
+                    </a>
+                    <a href="index.html" class="nav-link all-projects">
+                        <i class="fas fa-th"></i>
+                        <span>All Projects</span>
+                    </a>
+                    <a href="#" class="nav-link next-project">
+                        <span>Next Project</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+                
+            </article>
         </main>
     </div>
 
-    <!-- JavaScript -->
-    <script src="theme-manager.js"></script>  <!-- Load this FIRST -->
-    <script src="projects-data.js"></script>  <!-- Then others -->
-    <script src="project_page_sample.js"></script>  <!-- or project_page_sample.js -->
+    <!-- JavaScript for reading time calculation -->
+    <script>
+        // Calculate reading time based on word count
+        function calculateReadingTime() {
+            const content = document.getElementById('article-content');
+            if (!content) return; // Guard clause if content doesn't exist
+            
+            const text = content.innerText || content.textContent;
+            const wordCount = text.split(/\s+/).length;
+            const readingTime = Math.ceil(wordCount / 200); // Average 200 words per minute
+            
+            // Update reading time display - check if element exists first
+            const readingTimeElement = document.getElementById('reading-time');
+            if (readingTimeElement) {
+                readingTimeElement.textContent = readingTime + ' min read';
+            }
+        }
+        
+        // Run when page loads
+        document.addEventListener('DOMContentLoaded', calculateReadingTime);
+    </script>
+    
+    <script src="theme-manager.js"></script>
+
+    <!-- Enhanced Page Transition Script -->
+    <script>
+        (function() {
+            // Check if we're coming from a transition
+            if (sessionStorage.getItem('pageTransition') === 'true') {
+                document.body.classList.add('page-transition');
+                sessionStorage.removeItem('pageTransition');
+                
+                // Remove transition class after animation completes
+                setTimeout(() => {
+                    document.body.classList.remove('page-transition');
+                }, 500);
+            }
+            
+            // Add transition flag when clicking internal links
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('a');
+                if (!link) return;
+                
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                // Check if it's an internal link
+                if (href.includes('index.html') || 
+                    href.includes('project') || 
+                    href === '/' || 
+                    href.startsWith('#')) {
+                    
+                    // Skip if new tab
+                    if (link.target === '_blank') return;
+                    
+                    // Set transition flag
+                    sessionStorage.setItem('pageTransition', 'true');
+                }
+            });
+        })();
+    </script>
 </body>
 </html>

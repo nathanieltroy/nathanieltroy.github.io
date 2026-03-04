@@ -6,11 +6,64 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeSkills();
     initializeProjects();
     
+    // Initialize timeline toggles
+    initializeTimelineToggles();
+    
     // Start the tile animation after a short delay
     setTimeout(() => {
         startTileAnimation();
     }, 1000);
 });
+
+// Timeline toggle functionality
+function initializeTimelineToggles() {
+    const toggles = document.querySelectorAll('.timeline-toggle');
+    
+    if (toggles.length === 0) {
+        console.log('No timeline toggles found');
+        return;
+    }
+    
+    console.log(`Found ${toggles.length} timeline toggles`);
+    
+    toggles.forEach((toggle, index) => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Find the timeline item and description
+            const timelineItem = this.closest('.timeline-item');
+            const description = timelineItem.querySelector('.timeline-description');
+            
+            if (!description) {
+                console.log('No description found for toggle', index);
+                return;
+            }
+            
+            // Toggle open class
+            this.classList.toggle('open');
+            description.classList.toggle('open');
+            timelineItem.classList.toggle('has-open-description');
+            
+            // Update arrow icon
+            const icon = this.querySelector('i');
+            if (this.classList.contains('open')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+                
+                // Set max-height for smooth animation
+                description.style.maxHeight = description.scrollHeight + 'px';
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+                
+                // Remove max-height to allow smooth closing
+                description.style.maxHeight = '0';
+            }
+            
+            console.log(`Timeline item ${index + 1} toggled:`, this.classList.contains('open') ? 'open' : 'closed');
+        });
+    });
+}
 
 // ===== EXTRACT AND COUNT SKILLS FROM PROJECTS =====
 function extractAndCountSkills() {
