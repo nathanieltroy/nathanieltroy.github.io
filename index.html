@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+    // Run IMMEDIATELY before page renders
+    console.log('========== INLINE SCRIPT RUNNING ==========');
+    console.log('📍 Page:', window.location.href);
+    
+    const savedTheme = localStorage.getItem('theme');
+    console.log('📦 Read from localStorage:', savedTheme);
+    
+    if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-theme');
+        console.log('🎨 Applied: dark theme');
+    } else if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark-theme');
+        console.log('🎨 Applied: light theme');
+    } else {
+        console.log('🎨 No saved theme - keeping default');
+    }
+    console.log('==========================================');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nathaniel Troy Portfolio</title>
+    <!-- Font Awesome for icons (updated to include all icon sets) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts for new font scheme: Archivo Black, Archivo Narrow, Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo+Narrow:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- LEFT BANNER SECTION -->
+        <aside class="left-banner">
+
+            <!-- Profile Image -->
+            <div class="profile-image">
+                <img src="images/profile picture.png" alt="Profile Photo" id="profile-img">
+            </div>
+
+            <!-- Name and Title -->
+            <div class="profile-info">
+                <h1 class="name">Nathaniel Troy</h1>
+                <h2 class="title">Data Science Graduate</h2>
+                <p class="location"><i class="fas fa-map-marker-alt"></i> Tullamore, Ireland</p>
+            </div>
+
+            <!-- Social Icons and Theme Toggle -->
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/nathaniel-troy-040066289" target="_blank" class="social-icon">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://github.com/nathanieltroy" target="_blank" class="social-icon">
+                    <i class="fab fa-github"></i>
+                </a>
+                <!-- Changed from Twitter to CV icon -->
+                <a href="Nathaniel Troy CV.pdf" target="_blank" class="social-icon cv-icon">
+                    <i class="fas fa-file-pdf"></i>  <!-- PDF icon for CV -->
+                </a>
+                <a href="mailto:your.email@example.com" class="social-icon">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <!-- Theme Toggle (moved inside social-links but positioned) -->
+                <div class="theme-toggle">
+                    <button class="theme-switch" id="theme-switch">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="about-section">
+                <h3>About</h3>
+                <p>Motivated Data Science graduate seeking opportunities in the rapidly evolving fields of machine
+                    learning and data analysis. With a strong record of academic achievement, I am eager to apply
+                    analytical and problem-solving skills to deliver data-driven insights that support informed business
+                    decisions.</p>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h3>Skills</h3>
+                <div class="skills-grid" id="skills-grid">
+                    <!-- Skills will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Timeline Section -->
+            <div class="timeline-section">
+                <h3>Experience & Education</h3>
+                <div class="timeline">
+                    <!-- Work Experience 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-date">2021 - Present</span>
+                            <h4>Senior Data Scientist</h4>
+                            <p class="timeline-company">Tech Company</p>
+                            <p class="timeline-description">Leading ML initiatives and building predictive models.</p>
+                        </div>
+                    </div>
+
+                    <!-- Work Experience 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-date">2018 - 2021</span>
+                            <h4>Data Analyst</h4>
+                            <p class="timeline-company">Another Company</p>
+                            <p class="timeline-description">Analyzed customer behavior and created dashboards.</p>
+                        </div>
+                    </div>
+
+                    <!-- Education 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-date">2016 - 2018</span>
+                            <h4>M.S. in Data Science</h4>
+                            <p class="timeline-company">University Name</p>
+                            <p class="timeline-description">Focus on machine learning and statistical modeling.</p>
+                        </div>
+                    </div>
+
+                    <!-- Education 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="timeline-date">2012 - 2016</span>
+                            <h4>B.S. in Computer Science</h4>
+                            <p class="timeline-company">University Name</p>
+                            <p class="timeline-description">Minor in Mathematics.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- RIGHT PROJECT TILES SECTION -->
+        <main class="right-content">
+            <h2 class="projects-heading">Featured Projects</h2>
+            <div class="projects-grid" id="projects-grid">
+                <!-- Project tiles will be populated by JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Link to JavaScript -->
+    <script src="theme-manager.js"></script>  <!-- Load this FIRST -->
+    <script src="projects-data.js"></script>  <!-- Then others -->
+    <script src="script.js"></script>  <!-- or project_page_sample.js -->
+</body>
+</html>
