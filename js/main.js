@@ -177,7 +177,7 @@ function createProjectTile(project) {
             e.stopPropagation();
             return;
         }
-        window.location.href = `${project.id}.html`; // or whatever your URL structure is
+        window.location.href = `project.html?id=${project.id}`;
     });
     
     // Create slideshow container (keeping original structure)

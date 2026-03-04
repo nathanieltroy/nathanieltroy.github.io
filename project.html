@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+    // Run IMMEDIATELY before page renders
+    const savedTheme = localStorage.getItem('theme');
+    
+    if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-theme');
+    } else if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-theme');
+    }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project | Nathaniel Troy</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/project.css">
+    
+</head>
+<body>
+    <div class="container">
+        <!-- LEFT BANNER - Narrow version with all icons -->
+        <aside class="left-banner">
+            <div class="social-links">
+                <!-- Back to Portfolio - House Icon -->
+                <a href="index.html" class="social-icon back-link">
+                    <i class="fas fa-home"></i>
+                </a>
+                
+                <!-- Social Icons -->
+                <a href="https://www.linkedin.com/in/nathaniel-troy-040066289" target="_blank" class="social-icon">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://github.com/nathanieltroy" target="_blank" class="social-icon">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="Nathaniel Troy CV.pdf" target="_blank" class="social-icon cv-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </a>
+                <a href="mailto:your.email@example.com" class="social-icon">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                
+                <!-- Theme Toggle - Vertical Pill -->
+                <button class="theme-switch" id="theme-switch">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- RIGHT CONTENT - Newspaper Style Article -->
+        <main class="right-content">
+            <article class="article-container">
+                
+                <!-- Featured Image with Overlay Title -->
+                <div class="article-featured-image">
+                    <img src="" alt="Project featured image">
+                    <div class="image-overlay">
+                        <h1></h1>
+                    </div>
+                </div>
+                
+                <!-- Article Subheading -->
+                <div class="article-subheading"></div>
+                
+                <!-- Article Meta Bar -->
+                <div class="article-meta-bar">
+                    <div class="author-info">
+                        <img src="images/shared/profile picture.png" alt="Nathaniel Troy" class="author-avatar">
+                        <div class="author-details">
+                            <span class="author-name">Nathaniel Troy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="meta-details">
+                        <div class="meta-detail-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span></span>
+                        </div>
+                        <div class="meta-detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="reading-time">5 min read</span>
+                        </div>
+                        <a href="#" target="_blank" class="meta-detail-item github-link">
+                            <i class="fab fa-github"></i>
+                            <span>View Code</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Article Content -->
+                <div class="article-content" id="article-content">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                
+                <!-- Project Gallery (optional - include if you want gallery) -->
+                <div class="project-gallery" style="margin-top: 3rem; display: none;">
+                    <h2>Project Gallery</h2>
+                    <div class="gallery-main">
+                        <img id="gallery-main-img" src="" alt="Project gallery main">
+                    </div>
+                    <div class="gallery-thumbnails">
+                        <!-- Thumbnails will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Project Navigation -->
+                <div class="project-navigation">
+                    <a href="#" class="nav-link prev-project">
+                        <i class="fas fa-chevron-left"></i>
+                        <span>Previous Project</span>
+                    </a>
+                    <a href="index.html" class="nav-link all-projects">
+                        <i class="fas fa-th"></i>
+                        <span>All Projects</span>
+                    </a>
+                    <a href="#" class="nav-link next-project">
+                        <span>Next Project</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+                
+            </article>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/projects-data.js"></script>
+    <script src="js/theme-manager.js"></script>
+    <script src="js/project.js"></script>
+
+    <!-- Page Transition Script -->
+    <script>
+        (function() {
+            if (sessionStorage.getItem('pageTransition') === 'true') {
+                document.body.classList.add('page-transition');
+                sessionStorage.removeItem('pageTransition');
+                
+                setTimeout(() => {
+                    document.body.classList.remove('page-transition');
+                }, 500);
+            }
+            
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('a');
+                if (!link) return;
+                
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                if (href.includes('index.html') || 
+                    href.includes('project.html') || 
+                    href === '/' || 
+                    href.startsWith('#')) {
+                    
+                    if (link.target === '_blank') return;
+                    
+                    sessionStorage.setItem('pageTransition', 'true');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

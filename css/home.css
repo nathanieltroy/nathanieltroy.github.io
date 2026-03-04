@@ -74,9 +74,12 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 50px;
-    height: 2px;
-    background-color: var(--accent-primary);
+    width: 80px;  /* INCREASED: from 50px to 80px */
+    height: 3px;  /* INCREASED: from 2px to 3px */
+    background: var(--gradient-multicolor);  /* CHANGED: to gradient */
+    background-size: 200% 100%;
+    border-radius: 2px;
+    animation: gradientShift 6s ease infinite;  /* ADDED: animation */
 }
 
 .about-section p {
@@ -107,9 +110,12 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 50px;
-    height: 2px;
-    background-color: var(--accent-primary);
+    width: 80px;  /* INCREASED: from 50px to 80px */
+    height: 3px;  /* INCREASED: from 2px to 3px */
+    background: var(--gradient-multicolor);  /* CHANGED: to gradient */
+    background-size: 200% 100%;
+    border-radius: 2px;
+    animation: gradientShift 6s ease infinite;  /* ADDED: animation */
 }
 
 .skills-grid {
@@ -168,9 +174,12 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 50px;
-    height: 2px;
-    background-color: var(--accent-primary);
+    width: 80px;  /* INCREASED: from 50px to 80px */
+    height: 3px;  /* INCREASED: from 2px to 3px */
+    background: var(--gradient-multicolor);  /* CHANGED: to gradient */
+    background-size: 200% 100%;
+    border-radius: 2px;
+    animation: gradientShift 6s ease infinite;  /* ADDED: animation */
 }
 
 /* Make sure the timeline container takes full width */
@@ -355,7 +364,7 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 80px;
+    width: 400px;  /* CHANGED: from 120px to 250px - much longer */
     height: 4px;
     background: var(--gradient-multicolor);
     background-size: 200% 100%;

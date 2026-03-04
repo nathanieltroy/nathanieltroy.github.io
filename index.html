@@ -26,8 +26,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Link to CSS -->
-    <link rel="stylesheet" href="base.css">
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
     <div class="container">
@@ -36,7 +36,7 @@
 
             <!-- Profile Image -->
             <div class="profile-image">
-                <img src="images/profile picture.png" alt="Profile Photo" id="profile-img">
+                <img src="images/shared/profile picture.png" alt="Profile Photo" id="profile-img">
             </div>
 
             <!-- Name and Title -->
@@ -58,7 +58,7 @@
                 <a href="Nathaniel Troy CV.pdf" target="_blank" class="social-icon cv-icon">
                     <i class="fas fa-file-pdf"></i>  <!-- PDF icon for CV -->
                 </a>
-                <a href="mailto:your.email@example.com" class="social-icon">
+                <a href="mailto:nathanieltroy@protonmail.com" class="social-icon">
                     <i class="fas fa-envelope"></i>
                 </a>
                 <!-- Theme Toggle (moved inside social-links but positioned) -->
@@ -148,11 +148,11 @@
     </div>
 
     <!-- Link to JavaScript -->
-    <script src="theme-manager.js"></script>  <!-- Load this FIRST -->
-    <script src="projects-data.js"></script>  <!-- Then others -->
-    <script src="script.js"></script>  <!-- or project_page_sample.js -->
+    <script src="js/theme-manager.js"></script>
+    <script src="js/projects-data.js"></script>
+    <script src="js/main.js"></script>  <!-- Renamed from script.js to main.js for clarity -->
 
-    <!-- Enhanced Page Transition Script -->
+    <!-- Page Transition Script -->
     <script>
         (function() {
             // Check if we're coming from a transition
@@ -174,9 +174,9 @@
                 const href = link.getAttribute('href');
                 if (!href) return;
                 
-                // Check if it's an internal link
+                // Check if it's an internal link - UPDATED to handle new project URL structure
                 if (href.includes('index.html') || 
-                    href.includes('project') || 
+                    href.includes('project.html') || 
                     href === '/' || 
                     href.startsWith('#')) {
                     
