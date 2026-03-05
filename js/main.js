@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize timeline toggles
     initializeTimelineToggles();
+
+    // Intialise email copy functionality
+    initializeEmailCopy();
     
     // Start the tile animation after a short delay
     setTimeout(() => {
@@ -62,6 +65,92 @@ function initializeTimelineToggles() {
             
             console.log(`Timeline item ${index + 1} toggled:`, this.classList.contains('open') ? 'open' : 'closed');
         });
+    });
+}
+
+// ===== EMAIL COPY FUNCTIONALITY =====
+function initializeEmailCopy() {
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailCopyBtn = document.getElementById('email-copy-btn');
+    
+        if (emailCopyBtn) {
+            // Split email into parts - NO PLAINTEXT EMAIL IN HTML!
+            const emailUser = 'nathanieltroy';
+            const emailDomain = 'protonmail';
+            const emailTld = 'com';
+            
+            // Add tooltip on hover using title attribute (standard browser tooltip)
+            emailCopyBtn.setAttribute('title', 'Copy email address');
+            
+            // Create toast container if it doesn't exist
+            let toast = document.querySelector('.toast-notification');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.className = 'toast-notification';
+                document.body.appendChild(toast);
+            }
+            
+            // Function to show toast message
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }
+            
+            // Assemble when clicked
+            emailCopyBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Construct email at click time
+                const email = `${emailUser}@${emailDomain}.${emailTld}`;
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(email).then(function() {
+                    // Success feedback - icon change
+                    const originalIcon = emailCopyBtn.innerHTML;
+                    emailCopyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                    emailCopyBtn.style.backgroundColor = 'var(--accent-secondary)';
+                    emailCopyBtn.setAttribute('title', 'Copied!'); // Update tooltip
+                    
+                    // Show toast notification
+                    showToast('Email copied to clipboard!');
+                    
+                    setTimeout(function() {
+                        emailCopyBtn.innerHTML = originalIcon;
+                        emailCopyBtn.style.backgroundColor = '';
+                        emailCopyBtn.setAttribute('title', 'Copy email address'); // Restore tooltip
+                    }, 2000);
+                }).catch(function(err) {
+                    // Fallback for older browsers
+                    console.error('Could not copy email: ', err);
+                    
+                    // Create a temporary input element
+                    const tempInput = document.createElement('input');
+                    tempInput.value = email;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    
+                    // Show feedback
+                    const originalIcon = emailCopyBtn.innerHTML;
+                    emailCopyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                    emailCopyBtn.style.backgroundColor = 'var(--accent-secondary)';
+                    emailCopyBtn.setAttribute('title', 'Copied!');
+                    
+                    showToast('Email copied to clipboard!');
+                    
+                    setTimeout(function() {
+                        emailCopyBtn.innerHTML = originalIcon;
+                        emailCopyBtn.style.backgroundColor = '';
+                        emailCopyBtn.setAttribute('title', 'Copy email address');
+                    }, 2000);
+                });
+            });
+        }
     });
 }
 
