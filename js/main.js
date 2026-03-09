@@ -1,22 +1,33 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing...');
     
-    // Initialize skills and projects
+    initBackToTop();
     initializeSkills();
     initializeProjects();
-    
-    // Initialize timeline toggles
     initializeTimelineToggles();
-
-    // Intialise email copy functionality
     initializeEmailCopy();
+
+    // Set overlay heights AFTER projects are created and rendered
+    requestAnimationFrame(function() {
+        setTimeout(function() {
+            // Start the tile animation AFTER everything is set
+            setTimeout(function() {
+                startTileAnimation();
+            }, 900);
+        }, 100);
+    });
     
-    // Start the tile animation after a short delay
-    setTimeout(() => {
-        startTileAnimation();
-    }, 1000);
+    // Also check on orientation change
+    window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768 && window.matchMedia("(orientation: portrait)").matches) {
+            initBackToTop();
+        }
+        // Re-initialize project tiles on resize to recalculate heights
+        setTimeout(initializeProjectTiles, 100);
+    });
 });
+
+const ANIMATION_DURATION = 1200; // Duration of the flip animation in milliseconds
 
 // Timeline toggle functionality
 function initializeTimelineToggles() {
@@ -33,7 +44,6 @@ function initializeTimelineToggles() {
         toggle.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Find the timeline item and description
             const timelineItem = this.closest('.timeline-item');
             const description = timelineItem.querySelector('.timeline-description');
             
@@ -42,116 +52,94 @@ function initializeTimelineToggles() {
                 return;
             }
             
-            // Toggle open class
             this.classList.toggle('open');
             description.classList.toggle('open');
             timelineItem.classList.toggle('has-open-description');
             
-            // Update arrow icon
             const icon = this.querySelector('i');
             if (this.classList.contains('open')) {
                 icon.classList.remove('fa-chevron-down');
                 icon.classList.add('fa-chevron-up');
-                
-                // Set max-height for smooth animation
                 description.style.maxHeight = description.scrollHeight + 'px';
             } else {
                 icon.classList.remove('fa-chevron-up');
                 icon.classList.add('fa-chevron-down');
-                
-                // Remove max-height to allow smooth closing
                 description.style.maxHeight = '0';
             }
-            
-            console.log(`Timeline item ${index + 1} toggled:`, this.classList.contains('open') ? 'open' : 'closed');
         });
     });
 }
 
 // ===== EMAIL COPY FUNCTIONALITY =====
 function initializeEmailCopy() {
-    document.addEventListener('DOMContentLoaded', function() {
-        const emailCopyBtn = document.getElementById('email-copy-btn');
-    
-        if (emailCopyBtn) {
-            // Split email into parts - NO PLAINTEXT EMAIL IN HTML!
-            const emailUser = 'nathanieltroy';
-            const emailDomain = 'protonmail';
-            const emailTld = 'com';
-            
-            // Add tooltip on hover using title attribute (standard browser tooltip)
-            emailCopyBtn.setAttribute('title', 'Copy email address');
-            
-            // Create toast container if it doesn't exist
-            let toast = document.querySelector('.toast-notification');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.className = 'toast-notification';
-                document.body.appendChild(toast);
-            }
-            
-            // Function to show toast message
-            function showToast(message) {
-                toast.textContent = message;
-                toast.classList.add('show');
-                
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 2000);
-            }
-            
-            // Assemble when clicked
-            emailCopyBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Construct email at click time
-                const email = `${emailUser}@${emailDomain}.${emailTld}`;
-                
-                // Copy to clipboard
-                navigator.clipboard.writeText(email).then(function() {
-                    // Success feedback - icon change
-                    const originalIcon = emailCopyBtn.innerHTML;
-                    emailCopyBtn.innerHTML = '<i class="fas fa-check"></i>';
-                    emailCopyBtn.style.backgroundColor = 'var(--accent-secondary)';
-                    emailCopyBtn.setAttribute('title', 'Copied!'); // Update tooltip
-                    
-                    // Show toast notification
-                    showToast('Email copied to clipboard!');
-                    
-                    setTimeout(function() {
-                        emailCopyBtn.innerHTML = originalIcon;
-                        emailCopyBtn.style.backgroundColor = '';
-                        emailCopyBtn.setAttribute('title', 'Copy email address'); // Restore tooltip
-                    }, 2000);
-                }).catch(function(err) {
-                    // Fallback for older browsers
-                    console.error('Could not copy email: ', err);
-                    
-                    // Create a temporary input element
-                    const tempInput = document.createElement('input');
-                    tempInput.value = email;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
-                    
-                    // Show feedback
-                    const originalIcon = emailCopyBtn.innerHTML;
-                    emailCopyBtn.innerHTML = '<i class="fas fa-check"></i>';
-                    emailCopyBtn.style.backgroundColor = 'var(--accent-secondary)';
-                    emailCopyBtn.setAttribute('title', 'Copied!');
-                    
-                    showToast('Email copied to clipboard!');
-                    
-                    setTimeout(function() {
-                        emailCopyBtn.innerHTML = originalIcon;
-                        emailCopyBtn.style.backgroundColor = '';
-                        emailCopyBtn.setAttribute('title', 'Copy email address');
-                    }, 2000);
-                });
-            });
+    const emailCopyBtn = document.getElementById('email-copy-btn');
+
+    if (emailCopyBtn) {
+        const emailUser = 'nathanieltroy';
+        const emailDomain = 'protonmail';
+        const emailTld = 'com';
+        
+        emailCopyBtn.setAttribute('title', 'Copy email address');
+        
+        let toast = document.querySelector('.toast-notification');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            document.body.appendChild(toast);
         }
-    });
+        
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+        
+        emailCopyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const email = `${emailUser}@${emailDomain}.${emailTld}`;
+            
+            navigator.clipboard.writeText(email).then(function() {
+                const originalIcon = emailCopyBtn.innerHTML;
+                emailCopyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                emailCopyBtn.style.backgroundColor = 'var(--accent-secondary)';
+                emailCopyBtn.setAttribute('title', 'Copied!');
+                
+                showToast('Email copied to clipboard!');
+                
+                setTimeout(function() {
+                    emailCopyBtn.innerHTML = originalIcon;
+                    emailCopyBtn.style.backgroundColor = '';
+                    emailCopyBtn.setAttribute('title', 'Copy email address');
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Could not copy email: ', err);
+                
+                const tempInput = document.createElement('input');
+                tempInput.value = email;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                const originalIcon = emailCopyBtn.innerHTML;
+                emailCopyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                emailCopyBtn.style.backgroundColor = 'var(--accent-secondary)';
+                emailCopyBtn.setAttribute('title', 'Copied!');
+                
+                showToast('Email copied to clipboard!');
+                
+                setTimeout(function() {
+                    emailCopyBtn.innerHTML = originalIcon;
+                    emailCopyBtn.style.backgroundColor = '';
+                    emailCopyBtn.setAttribute('title', 'Copy email address');
+                }, 2000);
+            });
+        });
+    }
 }
 
 // ===== EXTRACT AND COUNT SKILLS FROM PROJECTS =====
@@ -180,7 +168,6 @@ function sortSkillsByFrequency(skillCount) {
 
 // ===== INITIALIZE SKILLS FROM PROJECTS =====
 function initializeSkills() {
-
     const skillsGrid = document.getElementById('skills-grid');
 
     if (!skillsGrid) {
@@ -188,10 +175,7 @@ function initializeSkills() {
         return;
     }
     
-    // Extract and count skills from projects
     const skillCount = extractAndCountSkills();
-    
-    // Sort skills by frequency (most to least)
     const sortedSkills = sortSkillsByFrequency(skillCount);
     
     let selectedSkill = null;
@@ -204,7 +188,6 @@ function initializeSkills() {
         button.textContent = skill;
         button.dataset.skill = skill;
         
-        // Optional: Add count badge
         const count = skillCount[skill];
         if (count > 1) {
             button.title = `Appears in ${count} project${count > 1 ? 's' : ''}`;
@@ -234,7 +217,7 @@ function initializeSkills() {
     console.log('Skills initialized:', sortedSkills);
 }
 
-// ===== INITIALIZE PROJECTS =====
+// ===== PROJECT TILES SETUP =====
 function initializeProjects() {
     const projectsGrid = document.getElementById('projects-grid');
     
@@ -249,6 +232,159 @@ function initializeProjects() {
         const tile = createProjectTile(project);
         projectsGrid.appendChild(tile);
     });
+    
+    // Initialize hover effects after tiles are added
+    setTimeout(() => {
+        initializeProjectTiles();
+    }, 100);
+}
+
+function initializeProjectTiles() {
+    const projectTiles = document.querySelectorAll('.project-tile');
+    
+    projectTiles.forEach(tile => {
+        const overlay = tile.querySelector('.project-overlay');
+        const description = tile.querySelector('.project-description');
+        const title = tile.querySelector('.project-title');
+        const skills = tile.querySelector('.project-skills');
+        
+        if (!overlay || !description) return;
+        
+        // Store original base height (title + skills only, no description)
+        const baseHeight = 100; // Default fallback
+        
+        // Temporarily show everything to measure
+        const originalTitleWebkitLineClamp = title.style.webkitLineClamp;
+        const originalDescriptionDisplay = description.style.display;
+        
+        // Remove line clamp temporarily to measure full title height
+        title.style.webkitLineClamp = 'unset';
+        description.style.display = 'block';
+        
+        // Force reflow
+        void overlay.offsetHeight;
+        
+        // Measure heights
+        const titleHeight = title.offsetHeight;
+        const skillsHeight = skills.offsetHeight;
+        const descriptionHeight = description.offsetHeight;
+        
+        // Calculate padding (approximately)
+        const padding = 32; // 1rem top + 1rem bottom = 32px roughly
+        
+        // Calculate expanded height (title + skills + description + padding)
+        const expandedHeight = titleHeight + skillsHeight + descriptionHeight + padding;
+        
+        // Store title line count for potential future use
+        const titleLineCount = Math.ceil(titleHeight / (parseFloat(getComputedStyle(title).lineHeight) || 20));
+        
+        // Restore original styles
+        title.style.webkitLineClamp = originalTitleWebkitLineClamp;
+        description.style.display = originalDescriptionDisplay;
+        
+        // Store measurements
+        tile.dataset.baseHeight = baseHeight;
+        tile.dataset.expandedHeight = expandedHeight;
+        tile.dataset.titleHeight = titleHeight;
+        tile.dataset.titleLineCount = titleLineCount;
+        
+        // Remove any existing listeners to prevent duplicates
+        tile.removeEventListener('mouseenter', handleMouseEnter);
+        tile.removeEventListener('mouseleave', handleMouseLeave);
+        tile.removeEventListener('touchstart', handleTileTouchStart);
+        
+        // Add desktop hover listeners
+        tile.addEventListener('mouseenter', handleMouseEnter);
+        tile.addEventListener('mouseleave', handleMouseLeave);
+        
+        // Add mobile touch listener
+        tile.addEventListener('touchstart', handleTileTouchStart, { passive: false });
+    });
+}
+
+function handleMouseEnter(e) {
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        expandOverlay(e.currentTarget);
+    }
+}
+
+function handleMouseLeave(e) {
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        collapseOverlay(e.currentTarget);
+    }
+}
+
+function handleTileTouchStart(e) {
+    e.preventDefault();
+    const tile = e.currentTarget;
+    
+    // Collapse any other expanded tiles
+    document.querySelectorAll('.project-tile.expanded').forEach(t => {
+        if (t !== tile) collapseOverlay(t);
+    });
+    
+    // Toggle this tile
+    if (tile.classList.contains('expanded')) {
+        collapseOverlay(tile);
+    } else {
+        expandOverlay(tile);
+    }
+}
+
+function expandOverlay(tile) {
+    const overlay = tile.querySelector('.project-overlay');
+    const description = tile.querySelector('.project-description');
+    const title = tile.querySelector('.project-title');
+    
+    if (!overlay || !description) return;
+    
+    // Remove line clamp to show full title
+    title.style.webkitLineClamp = 'unset';
+    
+    // Show description
+    description.style.display = 'block';
+    
+    // Expand overlay
+    overlay.style.height = tile.dataset.expandedHeight + 'px';
+    
+    // Add expanded class
+    tile.classList.add('expanded');
+    
+    // Add highlight to skills that match filter
+    const activeSkill = document.querySelector('.skill-button.active');
+    if (activeSkill) {
+        const skillName = activeSkill.dataset.skill;
+        tile.querySelectorAll('.skill').forEach(s => {
+            if (s.textContent === skillName) {
+                s.classList.add('highlight');
+            }
+        });
+    }
+}
+
+function collapseOverlay(tile) {
+    const overlay = tile.querySelector('.project-overlay');
+    const description = tile.querySelector('.project-description');
+    const title = tile.querySelector('.project-title');
+    
+    if (!overlay || !description) return;
+    
+    // Restore line clamp to 3 lines
+    title.style.webkitLineClamp = '3';
+    
+    // Hide description
+    description.style.display = 'none';
+    
+    // Collapse overlay
+    overlay.style.height = tile.dataset.baseHeight + 'px';
+    
+    // Remove expanded class
+    tile.classList.remove('expanded');
+    
+    // Remove skill highlights
+    tile.querySelectorAll('.skill.highlight').forEach(s => {
+        s.classList.remove('highlight');
+    });
 }
 
 // Updated to use slideshow container structure
@@ -257,11 +393,10 @@ function createProjectTile(project) {
     tile.className = 'project-tile';
     tile.dataset.projectId = project.id;
     tile.dataset.skills = project.skills.join(',');
-
-    // Make tile clickable
+    
+    // Click navigation
     tile.style.cursor = 'pointer';
     tile.addEventListener('click', function(e) {
-        // Don't navigate if clicking on a skill tag (to preserve filtering)
         if (e.target.classList.contains('skill')) {
             e.stopPropagation();
             return;
@@ -269,20 +404,23 @@ function createProjectTile(project) {
         window.location.href = `project.html?id=${project.id}`;
     });
     
-    // Create slideshow container (keeping original structure)
+    // Slideshow
     const slideshowContainer = document.createElement('div');
     slideshowContainer.className = 'slideshow-container';
     
-    // Add slides
     project.images.forEach((imageSrc, index) => {
         const slide = document.createElement('div');
         slide.className = 'slide';
-        if (index === 0) slide.style.display = 'block';
-        else slide.style.display = 'none';
+        slide.style.display = index === 0 ? 'block' : 'none';
         
         const img = document.createElement('img');
         img.src = imageSrc;
         img.alt = `${project.title} - image ${index + 1}`;
+        
+        img.onerror = function() {
+            console.error(`Failed to load: ${imageSrc}`);
+            this.src = 'images/placeholder.jpg';
+        };
         
         slide.appendChild(img);
         slideshowContainer.appendChild(slide);
@@ -290,14 +428,19 @@ function createProjectTile(project) {
     
     tile.appendChild(slideshowContainer);
     
-    // Create project info overlay
-    const info = document.createElement('div');
-    info.className = 'project-info';
+    // Overlay with grouped content
+    const overlay = document.createElement('div');
+    overlay.className = 'project-overlay';
     
+    const contentGroup = document.createElement('div');
+    contentGroup.className = 'overlay-content'; // REMOVED 'project-info' class
+    
+    // Title
     const title = document.createElement('h3');
     title.className = 'project-title';
     title.textContent = project.title;
     
+    // Skills
     const skills = document.createElement('div');
     skills.className = 'project-skills';
     project.skills.forEach(skill => {
@@ -307,15 +450,17 @@ function createProjectTile(project) {
         skills.appendChild(skillTag);
     });
     
+    // Description
     const description = document.createElement('p');
     description.className = 'project-description';
-    description.textContent = project.description;
+    description.textContent = project.subtitle;
     
-    info.appendChild(title);
-    info.appendChild(skills);
-    info.appendChild(description);
-    
-    tile.appendChild(info);
+    // Assemble
+    contentGroup.appendChild(title);
+    contentGroup.appendChild(skills);
+    contentGroup.appendChild(description);
+    overlay.appendChild(contentGroup);
+    tile.appendChild(overlay);
     
     return tile;
 }
@@ -353,6 +498,37 @@ function filterProjects(skill) {
     });
 }
 
+// ===== BACK TO TOP BUTTON =====
+function initBackToTop() {    
+    const backToTopBtn = document.getElementById('back-to-top-btn');
+    
+    if (backToTopBtn) {
+        const rect = backToTopBtn.getBoundingClientRect();
+        const newBtn = backToTopBtn.cloneNode(true);
+        backToTopBtn.parentNode.replaceChild(newBtn, backToTopBtn);
+        
+        newBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const rightContent = document.querySelector('.right-content');
+            
+            if (rightContent && rightContent.scrollTop > 0) {
+                rightContent.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+}
+
+// ===== TILE SLIDESHOW ANIMATION =====
 function startTileAnimation() {
     const tiles = document.querySelectorAll('.project-tile');
     if (tiles.length === 0) return;
@@ -362,11 +538,9 @@ function startTileAnimation() {
     const columns = 3;
     const rows = Math.ceil(tiles.length / columns);
     
-    // Store animation state
     let animationInterval;
     let isAnimating = false;
     
-    // Pre-calculate wave groups
     const waveGroups = [];
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < columns; col++) {
@@ -391,8 +565,6 @@ function startTileAnimation() {
         }
         return 0;
     }
-
-    ANIMATION_DURATION = 1200;
     
     function animateWaveGroup(group, waveIndex) {
         return new Promise(resolve => {
@@ -406,25 +578,20 @@ function startTileAnimation() {
                     const currentIndex = getCurrentSlideIndex(tile);
                     const nextIndex = (currentIndex + 1) % slides.length;
                     
-                    // Reset all slides first
                     slides.forEach(slide => {
                         slide.style.transition = '';
                         slide.style.filter = 'brightness(1)';
                         slide.classList.remove('fade-to-white', 'fade-from-white');
                     });
                     
-                    // Initially, only show the current slide
                     slides.forEach((slide, index) => {
                         slide.style.display = index === currentIndex ? 'block' : 'none';
                     });
                     
-                    // Start the flip animation
                     tile.classList.add('flip-diagonal');
                     
-                    // Force reflow
                     void tile.offsetWidth;
                     
-                    // FIRST HALF: Show current image, fade to white
                     slides[currentIndex].style.display = 'block';
                     slides[currentIndex].style.transition = 'filter 0.6s ease-in-out';
                     
@@ -432,31 +599,25 @@ function startTileAnimation() {
                         slides[currentIndex].classList.add('fade-to-white');
                     });
                     
-                    // MIDPOINT: Switch images
                     setTimeout(() => {
-                        // Hide current slide, show next slide at full white
                         slides[currentIndex].style.display = 'none';
                         slides[currentIndex].classList.remove('fade-to-white');
                         
                         slides[nextIndex].style.display = 'block';
-                        slides[nextIndex].style.filter = 'brightness(5) blur(2px)'; // Start fully white
+                        slides[nextIndex].style.filter = 'brightness(5) blur(2px)';
                         slides[nextIndex].style.transition = 'filter 0.6s ease-in-out';
                         
-                        // Force reflow before starting second half
                         void slides[nextIndex].offsetWidth;
                         
-                        // Fade from white to normal
                         requestAnimationFrame(() => {
                             slides[nextIndex].style.filter = 'brightness(1)';
                         });
                         
                     }, ANIMATION_DURATION / 2);
                     
-                    // Clean up
                     setTimeout(() => {
                         tile.classList.remove('flip-diagonal');
                         
-                        // Ensure only the new slide is visible
                         slides.forEach((slide, index) => {
                             slide.style.display = index === nextIndex ? 'block' : 'none';
                             slide.style.transition = '';
@@ -476,39 +637,34 @@ function startTileAnimation() {
         if (isAnimating) return;
         isAnimating = true;
         
-        // Start all groups at their calculated offsets
         const promises = waveGroups.map((group, i) => {
             if (group) {
                 return animateWaveGroup(group, i);
             }
         });
         
-        // Wait for ALL groups to complete their START delays
         await Promise.all(promises);
         
-        // Wait for the longest animation to complete
         const longestDuration = (waveGroups.length - 1) * (ANIMATION_DURATION / 2) + ANIMATION_DURATION;
         setTimeout(() => {
             isAnimating = false;
         }, longestDuration);
     }
-        // Start animation with cleanup capability
-        animationInterval = setInterval(runAnimationCycle, 6000);
-        
-        // Return cleanup function
-        return () => {
-            clearInterval(animationInterval);
-            // Reset any inline styles
-            tiles.forEach(tile => {
-                tile.classList.remove('flip-diagonal');
-                const slides = tile.querySelectorAll('.slide');
-                slides.forEach((slide, i) => {
-                    slide.style.transition = '';
-                    slide.style.opacity = i === 0 ? '1' : '0';
-                    slide.style.display = i === 0 ? 'block' : 'none';
-                });
+    
+    animationInterval = setInterval(runAnimationCycle, 6000);
+    
+    return () => {
+        clearInterval(animationInterval);
+        tiles.forEach(tile => {
+            tile.classList.remove('flip-diagonal');
+            const slides = tile.querySelectorAll('.slide');
+            slides.forEach((slide, i) => {
+                slide.style.transition = '';
+                slide.style.opacity = i === 0 ? '1' : '0';
+                slide.style.display = i === 0 ? 'block' : 'none';
             });
-        };
+        });
+    };
 }
 
 function addFlipAnimationStyles() {
@@ -519,7 +675,6 @@ function addFlipAnimationStyles() {
     const styleSheet = document.createElement('style');
     styleSheet.id = 'flip-animation-styles';
     styleSheet.textContent = `
-        /* Set up 3D space for each tile */
         .project-tile {
             transform-style: preserve-3d;
             perspective: 1500px;
@@ -527,7 +682,6 @@ function addFlipAnimationStyles() {
             position: relative;
         }
         
-        /* Position slides absolutely for overlay effect during crossfade */
         .project-tile .slideshow-container {
             position: relative;
             width: 100%;
@@ -543,22 +697,14 @@ function addFlipAnimationStyles() {
             opacity: 1;
             filter: brightness(1);
             transition: filter 0.6s cubic-bezier(0.42, 0, 0.58, 1);
-            /* Remove display: none from here - we'll control it in JS */
         }
-
-        /* Update first slide rule */
-        .project-tile .slide:first-child {
-            /* Remove display: block from here - we'll control it in JS */
-        }
-                
-        /* Apply the flip animation */
+        
         .project-tile.flip-diagonal {
             animation: flipDiagonal 1.2s ease-in-out;
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
             z-index: 10;
         }
         
-        /* Ensure smooth transitions */
         .project-tile * {
             backface-visibility: visible;
         }

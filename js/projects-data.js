@@ -57,7 +57,7 @@ const projectsData = [
         pullQuote: "Neural networks can reveal hidden patterns in how we live and what makes us happy.",
         skills: ['R', 'Neural Networks', 'Data Wrangling'],
         images: [
-            'images/projects/fyp/image1.jpg',
+            'images/projects/fyp/image1.png',
             'images/projects/fyp/image2.jpg',
             'images/projects/fyp/image3.jpg',
             'images/projects/fyp/image4.jpg'
@@ -78,10 +78,10 @@ const projectsData = [
         pullQuote: "Neural networks can reveal hidden patterns in how we live and what makes us happy.",
         skills: ['HTML', 'CSS', 'JavaScript', 'UI/UX Design'],
         images: [
-            'images/projects/website/image1.jpg',
-            'images/projects/website/image2.jpg',
-            'images/projects/website/image3.jpg',
-            'images/projects/website/image4.jpg'
+            'images/projects/portfolio website/image1.jpg',
+            'images/projects/portfolio website/image2.png',
+            'images/projects/portfolio website/image3.png',
+            'images/projects/portfolio website/image4.png'
         ]
     },
 
@@ -99,17 +99,17 @@ const projectsData = [
         pullQuote: "Neural networks can reveal hidden patterns in how we live and what makes us happy.",
         skills: ['R', 'Bayesian Statistics', 'Data Visualisation'],
         images: [
-            'images/projects/exercise effect bg/image1.jpg',
-            'images/projects/exercise effect bg/image2.jpg',
-            'images/projects/exercise effect bg/image3.jpg',
-            'images/projects/exercise effect bg/image4.jpg'
+            'images/projects/bayesian diabetes/image1.png',
+            'images/projects/bayesian diabetes/image2.png',
+            'images/projects/bayesian diabetes/image3.jpg',
+            'images/projects/bayesian diabetes/image4.jpeg'
         ]
     },
 
     {
         id: 'intro-ml',
-        title: 'Predicting Life Satisfaction Using a Neural Network',
-        subtitle: 'Using health and socioeconomic data to understand well-being',
+        title: 'Machine Learning: Estimating Steel Strength',
+        subtitle: 'Using ML classification and regression techniques in the context of material science',
         date: 'May 2024',
         githubUrl: 'https://github.com/nathanieltroy/fyp',
         featuredImage: 'images/projects/fyp/image1.jpg',
@@ -118,18 +118,18 @@ const projectsData = [
             // Add similar content structure for other projects
         },
         pullQuote: "Neural networks can reveal hidden patterns in how we live and what makes us happy.",
-        skills: ['R', 'Neural Networks', 'Data Visualisation'],
+        skills: ['Python', 'Machine Learning'],
         images: [
-            'images/projects/fyp/image1.jpg',
-            'images/projects/fyp/image2.jpg',
-            'images/projects/fyp/image3.jpg',
-            'images/projects/fyp/image4.jpg'
+            'images/projects/intro ml/image 1.jpeg',
+            'images/projects/intro ml/image 2.jpeg',
+            'images/projects/intro ml/image 3.png',
+            'images/projects/intro ml/image 4.png'
         ]
     },
     
     {
         id: 'bipartite-graph-matching',
-        title: 'Predicting Life Satisfaction Using a Neural Network',
+        title: 'Network Analysis: Bipartite Matching Algorithms',
         subtitle: 'Using health and socioeconomic data to understand well-being',
         date: 'April 2024',
         githubUrl: 'https://github.com/nathanieltroy/fyp',
@@ -139,18 +139,18 @@ const projectsData = [
             // Add similar content structure for other projects
         },
         pullQuote: "Neural networks can reveal hidden patterns in how we live and what makes us happy.",
-        skills: ['C++', 'Networks', 'Python', 'Data Visualisation'],
+        skills: ['C++', 'Python', 'Data Visualisation'],
         images: [
-            'images/projects/fyp/image1.jpg',
-            'images/projects/fyp/image2.jpg',
-            'images/projects/fyp/image3.jpg',
-            'images/projects/fyp/image4.jpg'
+            'images/projects/bipartite matching/image1.png',
+            'images/projects/bipartite matching/image2.png',
+            'images/projects/bipartite matching/image3.jpg',
+            'images/projects/bipartite matching/image4.jpeg'
         ]
     },
 
     {
         id: 'causal-inference-dutch-study',
-        title: 'Estimating Causal Effects of ',
+        title: 'Estimating Causal Effects of Child Brain Development',
         subtitle: 'Using health and socioeconomic data to understand well-being',
         date: 'April 2024',
         githubUrl: 'https://github.com/nathanieltroy/fyp',
@@ -160,12 +160,12 @@ const projectsData = [
             // Add similar content structure for other projects
         },
         pullQuote: "Neural networks can reveal hidden patterns in how we live and what makes us happy.",
-        skills: ['R', 'Causal Inference', 'Hypothesis Testing', 'Experiment Design'],
+        skills: ['R', 'Causal Inference', 'Hypothesis Testing'],
         images: [
-            'images/projects/fyp/image1.jpg',
-            'images/projects/fyp/image2.jpg',
-            'images/projects/fyp/image3.jpg',
-            'images/projects/fyp/image4.jpg'
+            'images/projects/causal effects study/image1.jpg',
+            'images/projects/causal effects study/image2.jpg',
+            'images/projects/causal effects study/image3.jpg',
+            'images/projects/causal effects study/image4.jpg'
         ]
     },
     

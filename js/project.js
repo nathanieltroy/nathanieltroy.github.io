@@ -33,9 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Populate the page with project data
     populateProjectPage(project);
     
-    // Initialize gallery
-    initializeGallery();
-    
     // Initialize smooth scroll
     initializeSmoothScroll();
     
@@ -44,6 +41,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Setup keyboard navigation
     setupKeyboardNavigation();
+    
+    // ===== BACK TO TOP INITIALIZATION =====
+    // Initialize back to top button
+    initBackToTop();
 });
 
 // ===== POPULATE PROJECT PAGE =====
@@ -188,22 +189,41 @@ function setupProjectNavigation(currentId) {
     
     const prevLink = document.querySelector('.prev-project');
     const nextLink = document.querySelector('.next-project');
+    const allProjectsLink = document.querySelector('.all-projects');
     
+    // Handle previous project
     if (currentIndex > 0) {
         const prevProject = projectsData[currentIndex - 1];
         prevLink.href = `project.html?id=${prevProject.id}`;
-        prevLink.querySelector('span').textContent = prevProject.title.substring(0, 20) + '...';
+        prevLink.querySelector('span').textContent = prevProject.title;
+        prevLink.style.visibility = 'visible';
+        prevLink.style.display = 'flex';  // Ensure it's visible
     } else {
+        // Keep the element in the DOM but make it invisible and non-interactive
         prevLink.style.visibility = 'hidden';
+        prevLink.style.display = 'flex';  // Keep display flex to maintain layout
+        prevLink.style.pointerEvents = 'none';  // Prevent clicking
+        prevLink.href = '#';  // Remove href
     }
     
+    // Handle next project
     if (currentIndex < projectsData.length - 1) {
         const nextProject = projectsData[currentIndex + 1];
         nextLink.href = `project.html?id=${nextProject.id}`;
-        nextLink.querySelector('span').textContent = nextProject.title.substring(0, 20) + '...';
+        nextLink.querySelector('span').textContent = nextProject.title;
+        nextLink.style.visibility = 'visible';
+        nextLink.style.display = 'flex';
     } else {
+        // Keep the element in the DOM but make it invisible and non-interactive
         nextLink.style.visibility = 'hidden';
+        nextLink.style.display = 'flex';  // Keep display flex to maintain layout
+        nextLink.style.pointerEvents = 'none';  // Prevent clicking
+        nextLink.href = '#';  // Remove href
     }
+    
+    // All projects button always visible and centered
+    allProjectsLink.style.visibility = 'visible';
+    allProjectsLink.style.display = 'flex';
 }
 
 // ===== GALLERY FUNCTIONS (from your original) =====
@@ -285,6 +305,42 @@ function calculateReadingTime() {
     const readingTimeElement = document.getElementById('reading-time');
     if (readingTimeElement) {
         readingTimeElement.textContent = readingTime + ' min read';
+    }
+}
+
+// ===== BACK TO TOP BUTTON =====
+function initBackToTop() {
+    const backToTopBtn = document.getElementById('back-to-top-btn');
+    
+    if (backToTopBtn) {
+        
+        // Remove any existing listeners
+        const newBtn = backToTopBtn.cloneNode(true);
+        backToTopBtn.parentNode.replaceChild(newBtn, backToTopBtn);
+        
+        // Add click listener
+        newBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Back to top clicked');
+            
+            // Check which element is scrollable
+            const rightContent = document.querySelector('.right-content');
+            
+            if (rightContent && rightContent.scrollTop > 0) {
+                // Scroll inside right-content (portrait mode)
+                rightContent.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else {
+                // Scroll the main window (landscape/desktop)
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        });
     }
 }
 
