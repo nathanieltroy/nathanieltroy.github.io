@@ -243,51 +243,6 @@ function initializeProjectTiles() {
     const projectTiles = document.querySelectorAll('.project-tile');
     
     projectTiles.forEach(tile => {
-        const overlay = tile.querySelector('.project-overlay');
-        const description = tile.querySelector('.project-description');
-        const title = tile.querySelector('.project-title');
-        const skills = tile.querySelector('.project-skills');
-        
-        if (!overlay || !description) return;
-        
-        // Store original base height (title + skills only, no description)
-        const baseHeight = 100; // Default fallback
-        
-        // Temporarily show everything to measure
-        const originalTitleWebkitLineClamp = title.style.webkitLineClamp;
-        const originalDescriptionDisplay = description.style.display;
-        
-        // Remove line clamp temporarily to measure full title height
-        title.style.webkitLineClamp = 'unset';
-        description.style.display = 'block';
-        
-        // Force reflow
-        void overlay.offsetHeight;
-        
-        // Measure heights
-        const titleHeight = title.offsetHeight;
-        const skillsHeight = skills.offsetHeight;
-        const descriptionHeight = description.offsetHeight;
-        
-        // Calculate padding (approximately)
-        const padding = 32; // 1rem top + 1rem bottom = 32px roughly
-        
-        // Calculate expanded height (title + skills + description + padding)
-        const expandedHeight = titleHeight + skillsHeight + descriptionHeight + padding;
-        
-        // Store title line count for potential future use
-        const titleLineCount = Math.ceil(titleHeight / (parseFloat(getComputedStyle(title).lineHeight) || 20));
-        
-        // Restore original styles
-        title.style.webkitLineClamp = originalTitleWebkitLineClamp;
-        description.style.display = originalDescriptionDisplay;
-        
-        // Store measurements
-        tile.dataset.baseHeight = baseHeight;
-        tile.dataset.expandedHeight = expandedHeight;
-        tile.dataset.titleHeight = titleHeight;
-        tile.dataset.titleLineCount = titleLineCount;
-        
         // Remove any existing listeners to prevent duplicates
         tile.removeEventListener('mouseenter', handleMouseEnter);
         tile.removeEventListener('mouseleave', handleMouseLeave);
@@ -333,21 +288,9 @@ function handleTileTouchStart(e) {
 
 function expandOverlay(tile) {
     const overlay = tile.querySelector('.project-overlay');
-    const description = tile.querySelector('.project-description');
     const title = tile.querySelector('.project-title');
-    
-    if (!overlay || !description) return;
-    
-    // Remove line clamp to show full title
-    title.style.webkitLineClamp = 'unset';
-    
-    // Show description
-    description.style.display = 'block';
-    
-    // Expand overlay
-    overlay.style.height = tile.dataset.expandedHeight + 'px';
-    
-    // Add expanded class
+        
+    // Remove title line clamp (CSS handles this via .expanded class)
     tile.classList.add('expanded');
     
     // Add highlight to skills that match filter
@@ -363,22 +306,7 @@ function expandOverlay(tile) {
 }
 
 function collapseOverlay(tile) {
-    const overlay = tile.querySelector('.project-overlay');
-    const description = tile.querySelector('.project-description');
-    const title = tile.querySelector('.project-title');
-    
-    if (!overlay || !description) return;
-    
-    // Restore line clamp to 3 lines
-    title.style.webkitLineClamp = '3';
-    
-    // Hide description
-    description.style.display = 'none';
-    
-    // Collapse overlay
-    overlay.style.height = tile.dataset.baseHeight + 'px';
-    
-    // Remove expanded class
+    // Remove expanded class - CSS handles the transform
     tile.classList.remove('expanded');
     
     // Remove skill highlights
@@ -386,6 +314,7 @@ function collapseOverlay(tile) {
         s.classList.remove('highlight');
     });
 }
+
 
 // Updated to use slideshow container structure
 function createProjectTile(project) {

@@ -383,29 +383,6 @@
     padding: 0.1rem;
 }
 
-/* Project Tile */
-.project-tile {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px var(--shadow);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: var(--card-bg);
-    aspect-ratio: 1 / 1;
-}
-
-.project-tile.hidden {
-    display: none;
-}
-
-.project-tile:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px var(--shadow);
-}
-
 /* Slideshow container */
 .slideshow-container {
     position: relative;
@@ -433,67 +410,7 @@
     display: block;
 }
 
-/* Overlay */
-.project-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, var(--overlay-start), var(--overlay-end));
-    z-index: 10;
-    pointer-events: none;
-    overflow: hidden;
-    height: 100px;
-    transition: height 0.15s;
-}
-
-.overlay-content {
-    padding: 1rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.project-title {
-    font-family: var(--font-heading);
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-    color: white;
-    
-    /* Change from single line to multi-line with max 3 lines */
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    
-    /* Allow title to expand */
-    white-space: normal;
-    
-    /* Ensure it doesn't break layout */
-    max-height: calc(1.3rem * 1.2 * 3); /* font-size * line-height * 3 lines */
-    line-height: 1.2;
-}
-
-.project-skills {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.2rem;
-}
-
-.project-description {
-    font-family: var(--font-body);
-    font-size: 0.85rem;
-    font-weight: 400;
-    line-height: 1.5;
-    margin-top: 0.5rem;
-    color: white;
-    display: none;
-}
-
+/* Project Tile - Skill Section */
 .skill {
     font-family: var(--font-body);
     font-size: 0.7rem;
@@ -513,6 +430,93 @@
     transform: scale(1.05);
     border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 2px 8px var(--accent-primary);
+    color: white;
+}
+
+
+/* Project Tile */
+.project-tile {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--card-bg);
+    aspect-ratio: 1 / 1;
+}
+
+.project-tile.hidden {
+    display: none;
+}
+
+.project-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px var(--shadow);
+}
+
+/* Overlay */
+.project-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, var(--overlay-start), var(--overlay-end));
+    z-index: 10;
+    pointer-events: none;
+    /* Instead of fixed height, use transform to move the entire content group */
+    height: auto;
+    transform: translateY(calc(100% - 85px)); /* Shows only title + skills */
+    transition: transform 0.15s ease-out; /* Quick sliding motion */
+}
+
+.overlay-content {
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-title {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: white;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Changed from 3 to 1 - only one line when collapsed */
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2;
+    /* Remove max-height constraint */
+}
+
+.project-tile.expanded .project-title {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+}
+
+.project-tile.expanded .project-overlay {
+    transform: translateY(0);
+}
+
+.project-skills {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.2rem;
+}
+
+.project-description {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-top: 0.5rem;
     color: white;
 }
 
