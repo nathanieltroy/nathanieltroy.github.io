@@ -281,6 +281,13 @@ body {
     100% { transform: rotate3d(1, -1, 0, 360deg); }
 }
 
+@keyframes flipHorizontal {
+    0% { transform: rotateX(0deg); }
+    49.99% { transform: rotateX(90deg); }
+    50% { transform: rotateX(270deg); }
+    100% { transform: rotateX(360deg); }
+}
+
 /* White fade effect classes */
 .project-tile .slide.fade-to-white {
     filter: brightness(5) blur(2px) hue-rotate(10deg) !important;

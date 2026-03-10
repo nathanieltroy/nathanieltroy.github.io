@@ -458,30 +458,62 @@ function initBackToTop() {
 }
 
 // ===== TILE SLIDESHOW ANIMATION =====
+const ANIMATION_CONFIG = {
+    // Duration of one complete flip (in milliseconds)
+    FLIP_DURATION: 1200,        // Was: ANIMATION_DURATION = 1200
+    
+    // Delay between wave groups starting (as fraction of FLIP_DURATION)
+    GROUP_DELAY_FACTOR: 0.5,    // Was: waveIndex * (ANIMATION_DURATION / 2)
+    
+    // Interval between animation cycles (in milliseconds)
+    CYCLE_INTERVAL: 6000,       // Was: 6000
+    
+    // Fade transition duration (in milliseconds)
+    FADE_DURATION: 600,         // Was: hardcoded as 0.6s in CSS
+    
+    // Optional: Brightness flash level for mid-point
+    FLASH_BRIGHTNESS: 5,        // Was: brightness(5)
+    FLASH_BLUR: '2px'           // Was: blur(2px)
+};
+
 function startTileAnimation() {
     const tiles = document.querySelectorAll('.project-tile');
     if (tiles.length === 0) return;
     
-    addFlipAnimationStyles();
-    
-    const columns = 3;
-    const rows = Math.ceil(tiles.length / columns);
+    // Add the appropriate animation styles based on column count
+    addFlipStyles();
     
     let animationInterval;
     let isAnimating = false;
     
-    const waveGroups = [];
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < columns; col++) {
-            const tileIndex = row * columns + col;
-            if (tileIndex >= tiles.length) continue;
-            
-            const waveGroup = row + col;
-            if (!waveGroups[waveGroup]) {
-                waveGroups[waveGroup] = [];
+    function createWaveGroups(tiles) {
+        const waveGroups = [];
+        const columns = getColumnCount();
+        const rows = Math.ceil(tiles.length / columns);
+        
+        // Wave pattern is determined SOLELY by number of columns
+        if (columns >= 2) {
+            // 2+ columns: Diagonal wave pattern (row + col)
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < columns; col++) {
+                    const tileIndex = row * columns + col;
+                    if (tileIndex >= tiles.length) continue;
+                    
+                    const waveGroup = row + col;
+                    if (!waveGroups[waveGroup]) {
+                        waveGroups[waveGroup] = [];
+                    }
+                    waveGroups[waveGroup].push(tiles[tileIndex]);
+                }
             }
-            waveGroups[waveGroup].push(tiles[tileIndex]);
+        } else {
+            // 1 column: Sequential (tile by tile)
+            for (let i = 0; i < tiles.length; i++) {
+                waveGroups[i] = [tiles[i]]; // Each tile gets its own group
+            }
         }
+        
+        return waveGroups;
     }
     
     function getCurrentSlideIndex(tile) {
@@ -497,7 +529,8 @@ function startTileAnimation() {
     
     function animateWaveGroup(group, waveIndex) {
         return new Promise(resolve => {
-            const startDelay = waveIndex * (ANIMATION_DURATION / 2);
+            // Use config for delay calculation
+            const startDelay = waveIndex * (ANIMATION_CONFIG.FLIP_DURATION * ANIMATION_CONFIG.GROUP_DELAY_FACTOR);
             
             setTimeout(() => {
                 group.forEach(tile => {
@@ -507,43 +540,46 @@ function startTileAnimation() {
                     const currentIndex = getCurrentSlideIndex(tile);
                     const nextIndex = (currentIndex + 1) % slides.length;
                     
+                    // Reset all slides
                     slides.forEach(slide => {
                         slide.style.transition = '';
                         slide.style.filter = 'brightness(1)';
                         slide.classList.remove('fade-to-white', 'fade-from-white');
+                        slide.style.display = 'none';
                     });
                     
-                    slides.forEach((slide, index) => {
-                        slide.style.display = index === currentIndex ? 'block' : 'none';
-                    });
-                    
-                    tile.classList.add('flip-diagonal');
-                    
-                    void tile.offsetWidth;
-                    
+                    // Show current slide
                     slides[currentIndex].style.display = 'block';
-                    slides[currentIndex].style.transition = 'filter 0.6s ease-in-out';
                     
+                    // Add flip animation class
+                    tile.classList.add('flip-diagonal');
+                    void tile.offsetWidth; // Force reflow
+                    
+                    // Fade out current slide using config duration
+                    slides[currentIndex].style.transition = `filter ${ANIMATION_CONFIG.FADE_DURATION}ms ease-in-out`;
                     requestAnimationFrame(() => {
                         slides[currentIndex].classList.add('fade-to-white');
                     });
                     
+                    // Mid-point: switch to next slide with bright flash
                     setTimeout(() => {
                         slides[currentIndex].style.display = 'none';
                         slides[currentIndex].classList.remove('fade-to-white');
                         
                         slides[nextIndex].style.display = 'block';
-                        slides[nextIndex].style.filter = 'brightness(5) blur(2px)';
-                        slides[nextIndex].style.transition = 'filter 0.6s ease-in-out';
+                        // Use config for flash intensity
+                        slides[nextIndex].style.filter = `brightness(${ANIMATION_CONFIG.FLASH_BRIGHTNESS}) blur(${ANIMATION_CONFIG.FLASH_BLUR})`;
+                        slides[nextIndex].style.transition = `filter ${ANIMATION_CONFIG.FADE_DURATION}ms ease-in-out`;
                         
-                        void slides[nextIndex].offsetWidth;
+                        void slides[nextIndex].offsetWidth; // Force reflow
                         
                         requestAnimationFrame(() => {
                             slides[nextIndex].style.filter = 'brightness(1)';
                         });
                         
-                    }, ANIMATION_DURATION / 2);
+                    }, ANIMATION_CONFIG.FLIP_DURATION / 2);
                     
+                    // End of animation: clean up
                     setTimeout(() => {
                         tile.classList.remove('flip-diagonal');
                         
@@ -554,17 +590,20 @@ function startTileAnimation() {
                             slide.classList.remove('fade-to-white', 'fade-from-white');
                         });
                         
-                    }, ANIMATION_DURATION);
+                    }, ANIMATION_CONFIG.FLIP_DURATION);
                 });
                 
                 resolve();
             }, startDelay);
         });
     }
-
+    
     async function runAnimationCycle() {
         if (isAnimating) return;
         isAnimating = true;
+        
+        // Create wave groups fresh each cycle to handle resize
+        const waveGroups = createWaveGroups(tiles);
         
         const promises = waveGroups.map((group, i) => {
             if (group) {
@@ -574,14 +613,20 @@ function startTileAnimation() {
         
         await Promise.all(promises);
         
-        const longestDuration = (waveGroups.length - 1) * (ANIMATION_DURATION / 2) + ANIMATION_DURATION;
+        // Use config for longest duration calculation
+        const longestDuration = (waveGroups.length - 1) * 
+            (ANIMATION_CONFIG.FLIP_DURATION * ANIMATION_CONFIG.GROUP_DELAY_FACTOR) + 
+            ANIMATION_CONFIG.FLIP_DURATION;
+        
         setTimeout(() => {
             isAnimating = false;
         }, longestDuration);
     }
     
-    animationInterval = setInterval(runAnimationCycle, 6000);
+    // Start animation using config interval
+    animationInterval = setInterval(runAnimationCycle, ANIMATION_CONFIG.CYCLE_INTERVAL);
     
+    // Return cleanup function
     return () => {
         clearInterval(animationInterval);
         tiles.forEach(tile => {
@@ -589,20 +634,56 @@ function startTileAnimation() {
             const slides = tile.querySelectorAll('.slide');
             slides.forEach((slide, i) => {
                 slide.style.transition = '';
-                slide.style.opacity = i === 0 ? '1' : '0';
                 slide.style.display = i === 0 ? 'block' : 'none';
             });
         });
     };
 }
 
-function addFlipAnimationStyles() {
-    if (document.getElementById('flip-animation-styles')) {
-        return;
+function getColumnCount() {
+    const width = window.innerWidth;
+    const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+    
+    // Desktop (1200px and up) - 3 columns
+    if (width >= 1200) {
+        return 3;
+    }
+    
+    // Tablet (769px - 1199px) - 2 columns
+    if (width >= 769 && width <= 1199) {
+        return 2;
+    }
+    
+    // Mobile (up to 768px) - 1 column
+    if (width <= 768) {
+        return 1;
+    }
+    
+    // Fallback
+    return 3;
+}
+
+// ===== TILE ANIMATION STYLES =====
+function addFlipStyles() {
+    const columns = getColumnCount();
+    const styleId = 'flip-animation-styles';
+    
+    // Remove existing styles
+    const existingStyles = document.getElementById(styleId);
+    if (existingStyles) {
+        existingStyles.remove();
     }
     
     const styleSheet = document.createElement('style');
-    styleSheet.id = 'flip-animation-styles';
+    styleSheet.id = styleId;
+    
+    // Choose animation name based on column count
+    const animationName = columns >= 2 ? 'flipDiagonal' : 'flipHorizontal';
+    
+    // Convert ms to seconds for CSS
+    const flipDurationSec = ANIMATION_CONFIG.FLIP_DURATION / 1000;
+    const fadeDurationSec = ANIMATION_CONFIG.FADE_DURATION / 1000;
+    
     styleSheet.textContent = `
         .project-tile {
             transform-style: preserve-3d;
@@ -625,11 +706,11 @@ function addFlipAnimationStyles() {
             height: 100%;
             opacity: 1;
             filter: brightness(1);
-            transition: filter 0.6s cubic-bezier(0.42, 0, 0.58, 1);
+            transition: filter ${fadeDurationSec}s cubic-bezier(0.42, 0, 0.58, 1);
         }
         
         .project-tile.flip-diagonal {
-            animation: flipDiagonal 1.2s ease-in-out;
+            animation: ${animationName} ${flipDurationSec}s ease-in-out;
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
             z-index: 10;
         }
@@ -638,6 +719,5 @@ function addFlipAnimationStyles() {
             backface-visibility: visible;
         }
     `;
-    
     document.head.appendChild(styleSheet);
 }
