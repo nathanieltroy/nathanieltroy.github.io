@@ -622,6 +622,21 @@
             font-size: 1.2rem;
         }
         
+        .skill-button {
+            padding: 0.25rem 0.6rem;
+            font-size: 0.75rem;
+            border-radius: 16px;
+        }
+        
+        .project-overlay {
+            transform: translateY(calc(100% - 80px));  /* Show less on small screens */
+        }
+        
+        .project-skills .skill {
+            font-size: 0.7rem;
+            padding: 0.1rem 0.4rem;
+        }
+        
         /* Back to Top */
         .back-to-top {
             margin: 0.5rem auto;
@@ -658,8 +673,11 @@
         }
         
         .project-title {
-            font-size: 1.1rem;
-            margin-bottom: 0.2rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+        .project-overlay {
+            transform: translateY(calc(100% - 70px));  /* Show less on small screens */
         }
         
         .project-skills {
@@ -667,7 +685,7 @@
         }
         
         .project-skills .skill {
-            font-size: 0.6rem;
+            font-size: 0.7rem;
             padding: 0.1rem 0.4rem;
         }
         
@@ -682,27 +700,30 @@
 /* LANDSCAPE MODE - Horizontal layouts */
 @media (orientation: landscape) {
     
+    /* ===== BASE LANDSCAPE STYLES (applies to all landscape devices) ===== */
     .left-banner {
         display: flex;
         flex-direction: column;
     }
     
-    /* Landscape phones (limited height) */
+    /* ===== LANDSCAPE PHONES (limited height) ===== */
     @media (max-width: 900px) {
         
-        /* ===== LAYOUT & ORDER ===== */
+        /* Section ordering for landscape phones */
         .about-section { order: 1; }
-        .timeline-section { order: 2; }
-        .skills-section { order: 3; }
+        .skills-section { order: 2; }  /* Skills second in landscape phones */
+        .timeline-section { order: 3; } /* Timeline third in landscape phones */
         
+        /* ===== LEFT BANNER - BASE STYLES ===== */
         .left-banner {
             padding: 1rem;
             box-shadow: none !important;
-            background: var(--body-bg) !important;  /* Match right section background */
+            background: var(--body-bg) !important;
         }
         
         .right-content {
             box-shadow: none !important;
+            padding: 1rem 0.75rem !important;  /* Reduced side padding */
         }
         
         .container {
@@ -735,6 +756,13 @@
             font-size: 0.95rem !important;
         }
         
+        /* ===== LEFT BANNER SKILL BUTTONS ===== */
+        .skill-button {
+            padding: 0.25rem 0.6rem;
+            font-size: 0.85rem;  /* Slightly smaller than description text */
+            border-radius: 16px;
+        }
+        
         /* ===== TIMELINE ===== */
         .timeline-dot { 
             left: 4.05rem; 
@@ -753,10 +781,35 @@
             font-size: 1.1rem;
         }
         
+        /* ===== PROJECT OVERLAY ===== */
+        .project-overlay {
+            transform: translateY(calc(100% - 60px));  /* Show minimal on landscape phones */
+        }
+        
+        .project-tile .overlay-content {
+            padding: 0.4rem 0.6rem;  /* Tighter padding */
+        }
+        
+        /* ===== PROJECT TITLES ===== */
+        .project-title {
+            font-size: 1.2rem;  /* Slightly smaller */
+            margin-bottom: 0.2rem;
+        }
+        
+        /* ===== PROJECT SKILLS ===== */
+        .project-skills {
+            gap: 0.2rem;
+        }
+        
+        .project-skills .skill {
+            font-size: 0.6rem;  /* Smaller skills */
+            padding: 0.1rem 0.3rem;
+        }
+        
         /* ===== PROJECTS GRID ===== */
         .projects-grid { 
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.4rem;
+            gap: 0.3rem;  /* Reduced gap */
         }
         
         .project-tile {
@@ -782,12 +835,29 @@
         
         .theme-switch i {
             font-size: 1rem !important;
+            line-height: 36px;
+            position: relative;
+            top: -1px;
+        }
+        
+        /* Moon icon adjustment for dark mode */
+        .dark-theme .theme-switch .fa-moon {
+            position: relative;
+            left: -2px;
         }
         
         /* ===== SOCIAL ICONS ===== */
+        .social-links {
+            gap: 0.7rem;
+            margin-bottom: 1.5rem;
+        }
+        
         .social-icon {
             width: 36px;
             height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         /* CV/PDF icon - smaller */
@@ -798,11 +868,15 @@
             font-size: 1rem;
         }
         
-        /* Social media icons - keep original size */
+        /* Email icon */
+        .social-icon .fa-envelope {
+            font-size: 1.1rem;
+        }
+        
+        /* Social media icons */
         .social-icon .fa-github,
         .social-icon .fa-linkedin,
-        .social-icon .fa-twitter,
-        .social-icon .fa-envelope {
+        .social-icon .fa-twitter {
             font-size: 1.2rem;
         }
         
@@ -812,106 +886,116 @@
         }
     }
     
-    /* Landscape tablets & desktop (plenty of room) */
+    /* ===== LANDSCAPE TABLETS & DESKTOP (plenty of room) ===== */
     @media (min-width: 901px) {
+        
+        /* Section ordering for landscape tablets */
+        .about-section { order: 1; }
+        .skills-section { order: 2; }
+        .timeline-section { order: 3; }
         
         /* ===== LEFT BANNER - NARROWER ===== */
         .left-banner {
-            width: 340px;  /* Reduced from 420px */
+            width: 340px;
         }
         
         .right-content {
-            margin-left: 340px;  /* Match new banner width */
+            margin-left: 340px;
             width: calc(100% - 340px);
         }
         
-        /* ===== TYPOGRAPHY - SLIGHTLY SMALLER TEXT ===== */
-        /* Description text */
+        /* ===== TYPOGRAPHY - SMALLER TEXT ===== */
         .about-section p,
         .timeline-description p,
-        .skill-button,
+        .skill-button,           /* ADD THIS BACK */
         .location,
         .title {
-            font-size: 0.85rem;  /* Reduced from 0.9rem */
+            font-size: 0.85rem;
         }
         
-        /* Timeline specific */
         .timeline-year {
-            font-size: 0.85rem;  /* Reduced from 0.9rem */
+            font-size: 0.85rem;
         }
         
         .timeline-company {
-            font-size: 0.75rem;  /* Reduced from 0.8rem */
+            font-size: 0.75rem;
         }
         
         .timeline-title-group h4 {
-            font-size: 0.95rem;  /* Reduced from 1rem */
+            font-size: 0.95rem;
         }
         
         /* ===== LEFT BANNER SKILL BUTTONS ===== */
         .skill-button {
-            padding: 0.3rem 0.7rem;  /* Reduced from 0.4rem 0.8rem */
-            font-size: 0.75rem;  /* Smaller than description text */
+            padding: 0.3rem 0.7rem;  /* RESTORE this */
+            font-size: 0.75rem;       /* This can be removed since it's in typography */
         }
         
         /* ===== SOCIAL MEDIA BUTTONS ===== */
         .social-links {
-            gap: 0.7rem;  /* Reduced from 1rem */
-            margin-bottom: 1.5rem;  /* Slightly reduced */
+            gap: 0.7rem;
+            margin-bottom: 1.5rem;
         }
         
         .social-icon {
-            width: 32px;  /* Reduced from 40px */
-            height: 32px; /* Reduced from 40px */
+            width: 32px;
+            height: 32px;
         }
         
-        /* Social media icons */
         .social-icon i {
-            font-size: 1rem;  /* Reduced from 1.2rem */
+            font-size: 1rem;
         }
         
-        /* CV/PDF icon - slightly smaller to match */
         .social-icon .fa-file-pdf,
         .social-icon .fa-file-lines {
-            font-size: 0.9rem;  /* Slightly smaller than other icons */
+            font-size: 0.9rem;
         }
         
         /* ===== THEME TOGGLE ===== */
         .theme-switch {
-            width: 56px;  /* Reduced from 70px */
-            height: 32px; /* Reduced from 40px */
+            width: 56px;
+            height: 32px;
         }
         
         .theme-switch::after {
-            width: 28px;  /* Reduced from 38px */
-            height: 28px; /* Reduced from 38px */
+            width: 28px;
+            height: 28px;
             top: 2px;
             left: 2px;
         }
         
         .dark-theme .theme-switch::after {
-            transform: translateX(24px);  /* 56px - 28px - 4px padding */
+            transform: translateX(24px);
         }
         
         .theme-switch i {
-            font-size: 0.85rem;  /* Reduced from 1rem */
+            font-size: 0.85rem;
         }
         
-        /* ===== PROJECT TITLES - SMALLER ===== */
+        /* ===== PROJECT TITLES & SKILLS ===== */
+        .right-content {
+            padding: 2rem 1.5rem;  /* Reduced horizontal padding from 3rem to 1rem */
+        }
         .project-title {
-            font-size: 1.1rem;  /* Reduced from 1.3rem */
+            font-size: 1.1rem;
+        }
+        .project-overlay {
+            transform: translateY(calc(100% - 70px));  /* Show less on small screens */
         }
         
-        /* ===== PROJECT SKILLS - SMALLER ===== */
         .project-skills .skill {
-            font-size: 0.6rem;  /* Reduced from 0.7rem */
-            padding: 0.15rem 0.5rem;  /* Slightly smaller padding */
+            font-size: 0.6rem;
+            padding: 0.15rem 0.5rem;
+        }
+
+        .project-tile .overlay-content {
+            padding: 0.5rem 0.8rem;  /* Reduced from 1rem 1.5rem (or 0.6rem 1rem) */
         }
         
-        /* ===== PROJECT TILES - REDUCED GAP ===== */
+        /* ===== PROJECTS GRID ===== */
         .projects-grid { 
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;  /* Reduced from 0.8rem */
+            gap: 0.5rem;
         }
         
         /* ===== BACK TO TOP ===== */
