@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeProjects();
     initializeTimelineToggles();
     initializeEmailCopy();
+    setupResponsiveAnimation();
 
     // Set overlay heights AFTER projects are created and rendered
     requestAnimationFrame(function() {
@@ -459,41 +460,48 @@ function initBackToTop() {
 
 // ===== TILE SLIDESHOW ANIMATION =====
 const ANIMATION_CONFIG = {
-    // Duration of one complete flip (in milliseconds)
-    FLIP_DURATION: 1200,        // Was: ANIMATION_DURATION = 1200
     
-    // Delay between wave groups starting (as fraction of FLIP_DURATION)
-    GROUP_DELAY_FACTOR: 0.5,    // Was: waveIndex * (ANIMATION_DURATION / 2)
-    
-    // Interval between animation cycles (in milliseconds)
-    CYCLE_INTERVAL: 6000,       // Was: 6000
-    
-    // Fade transition duration (in milliseconds)
-    FADE_DURATION: 600,         // Was: hardcoded as 0.6s in CSS
+    FLIP_DURATION: 1200,        // Duration of one complete flip (in milliseconds)
+    GROUP_DELAY_FACTOR: 0.5,    // Delay between wave groups starting (as fraction of FLIP_DURATION)
+    CYCLE_INTERVAL: 6000,       // Interval between animation cycles (in milliseconds)
+    FADE_DURATION: 600,         // Fade transition duration (in milliseconds)
     
     // Optional: Brightness flash level for mid-point
     FLASH_BRIGHTNESS: 5,        // Was: brightness(5)
     FLASH_BLUR: '2px'           // Was: blur(2px)
 };
 
+let currentAnimationInterval = null;
+let animationCleanup = null;
+
 function startTileAnimation() {
+
+    // Clean up any existing animation first
+    if (animationCleanup) {
+        animationCleanup();
+        animationCleanup = null;
+    }
+    
+    if (currentAnimationInterval) {
+        clearInterval(currentAnimationInterval);
+        currentAnimationInterval = null;
+    }
+
     const tiles = document.querySelectorAll('.project-tile');
     if (tiles.length === 0) return;
     
     // Add the appropriate animation styles based on column count
     addFlipStyles();
     
-    let animationInterval;
     let isAnimating = false;
     
-    function createWaveGroups(tiles) {
+        function createWaveGroups(tiles) {
         const waveGroups = [];
         const columns = getColumnCount();
         const rows = Math.ceil(tiles.length / columns);
         
-        // Wave pattern is determined SOLELY by number of columns
         if (columns >= 2) {
-            // 2+ columns: Diagonal wave pattern (row + col)
+            // 2+ columns: Diagonal wave pattern
             for (let row = 0; row < rows; row++) {
                 for (let col = 0; col < columns; col++) {
                     const tileIndex = row * columns + col;
@@ -507,9 +515,9 @@ function startTileAnimation() {
                 }
             }
         } else {
-            // 1 column: Sequential (tile by tile)
+            // 1 column: Sequential
             for (let i = 0; i < tiles.length; i++) {
-                waveGroups[i] = [tiles[i]]; // Each tile gets its own group
+                waveGroups[i] = [tiles[i]];
             }
         }
         
@@ -529,7 +537,6 @@ function startTileAnimation() {
     
     function animateWaveGroup(group, waveIndex) {
         return new Promise(resolve => {
-            // Use config for delay calculation
             const startDelay = waveIndex * (ANIMATION_CONFIG.FLIP_DURATION * ANIMATION_CONFIG.GROUP_DELAY_FACTOR);
             
             setTimeout(() => {
@@ -540,7 +547,6 @@ function startTileAnimation() {
                     const currentIndex = getCurrentSlideIndex(tile);
                     const nextIndex = (currentIndex + 1) % slides.length;
                     
-                    // Reset all slides
                     slides.forEach(slide => {
                         slide.style.transition = '';
                         slide.style.filter = 'brightness(1)';
@@ -548,30 +554,25 @@ function startTileAnimation() {
                         slide.style.display = 'none';
                     });
                     
-                    // Show current slide
                     slides[currentIndex].style.display = 'block';
                     
-                    // Add flip animation class
                     tile.classList.add('flip-diagonal');
-                    void tile.offsetWidth; // Force reflow
+                    void tile.offsetWidth;
                     
-                    // Fade out current slide using config duration
                     slides[currentIndex].style.transition = `filter ${ANIMATION_CONFIG.FADE_DURATION}ms ease-in-out`;
                     requestAnimationFrame(() => {
                         slides[currentIndex].classList.add('fade-to-white');
                     });
                     
-                    // Mid-point: switch to next slide with bright flash
                     setTimeout(() => {
                         slides[currentIndex].style.display = 'none';
                         slides[currentIndex].classList.remove('fade-to-white');
                         
                         slides[nextIndex].style.display = 'block';
-                        // Use config for flash intensity
                         slides[nextIndex].style.filter = `brightness(${ANIMATION_CONFIG.FLASH_BRIGHTNESS}) blur(${ANIMATION_CONFIG.FLASH_BLUR})`;
                         slides[nextIndex].style.transition = `filter ${ANIMATION_CONFIG.FADE_DURATION}ms ease-in-out`;
                         
-                        void slides[nextIndex].offsetWidth; // Force reflow
+                        void slides[nextIndex].offsetWidth;
                         
                         requestAnimationFrame(() => {
                             slides[nextIndex].style.filter = 'brightness(1)';
@@ -579,7 +580,6 @@ function startTileAnimation() {
                         
                     }, ANIMATION_CONFIG.FLIP_DURATION / 2);
                     
-                    // End of animation: clean up
                     setTimeout(() => {
                         tile.classList.remove('flip-diagonal');
                         
@@ -602,7 +602,6 @@ function startTileAnimation() {
         if (isAnimating) return;
         isAnimating = true;
         
-        // Create wave groups fresh each cycle to handle resize
         const waveGroups = createWaveGroups(tiles);
         
         const promises = waveGroups.map((group, i) => {
@@ -613,7 +612,6 @@ function startTileAnimation() {
         
         await Promise.all(promises);
         
-        // Use config for longest duration calculation
         const longestDuration = (waveGroups.length - 1) * 
             (ANIMATION_CONFIG.FLIP_DURATION * ANIMATION_CONFIG.GROUP_DELAY_FACTOR) + 
             ANIMATION_CONFIG.FLIP_DURATION;
@@ -623,12 +621,11 @@ function startTileAnimation() {
         }, longestDuration);
     }
     
-    // Start animation using config interval
-    animationInterval = setInterval(runAnimationCycle, ANIMATION_CONFIG.CYCLE_INTERVAL);
+    // Start animation
+    currentAnimationInterval = setInterval(runAnimationCycle, ANIMATION_CONFIG.CYCLE_INTERVAL);
     
-    // Return cleanup function
-    return () => {
-        clearInterval(animationInterval);
+    // Store cleanup function
+    animationCleanup = () => {
         tiles.forEach(tile => {
             tile.classList.remove('flip-diagonal');
             const slides = tile.querySelectorAll('.slide');
@@ -638,6 +635,28 @@ function startTileAnimation() {
             });
         });
     };
+    
+    return animationCleanup;
+}
+
+// ===== SETUP RESIZE/ORIENTATION LISTENERS =====
+function setupResponsiveAnimation() {
+    // Start the animation initially
+    startTileAnimation();
+    
+    // Debounce function to prevent too many restarts
+    let resizeTimeout;
+    function handleResize() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            console.log('Screen size/orientation changed - restarting animation');
+            startTileAnimation();
+        }, 150); // Wait 150ms after resize ends before restarting
+    }
+    
+    // Listen for both resize and orientation change
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
 }
 
 function getColumnCount() {

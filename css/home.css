@@ -61,29 +61,6 @@
     margin-bottom: 1.5rem;
 }
 
-.about-section h3 {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    position: relative;
-    padding-bottom: 0.5rem;
-    color: var(--text-primary);
-}
-
-.about-section h3::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 60px;
-    height: 3px;
-    background: var(--gradient-multicolor);
-    background-size: 200% 100%;
-    border-radius: 2px;
-    animation: gradientShift 6s ease infinite;
-}
-
 .about-section p {
     font-family: var(--font-body);
     font-size: 0.9rem;
@@ -96,29 +73,6 @@
 /* Skills Section (homepage only) */
 .skills-section {
     margin-bottom: 1.5rem;
-}
-
-.skills-section h3 {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    position: relative;
-    padding-bottom: 0.5rem;
-    color: var(--text-primary);
-}
-
-.skills-section h3::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 60px;
-    height: 3px;
-    background: var(--gradient-multicolor);
-    background-size: 200% 100%;
-    border-radius: 2px;
-    animation: gradientShift 6s ease infinite;
 }
 
 .skills-grid {
@@ -159,31 +113,6 @@
 .timeline-section {
     width: 100%;
     margin-bottom: 1.5rem;
-}
-
-.timeline-section h3 {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    position: relative;
-    padding-bottom: 0.5rem;
-    color: var(--text-primary);
-    padding-left: 0;
-    margin-left: 0;
-}
-
-.timeline-section h3::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 60px;
-    height: 3px;
-    background: var(--gradient-multicolor);
-    background-size: 200% 100%;
-    border-radius: 2px;
-    animation: gradientShift 6s ease infinite;
 }
 
 .timeline {
@@ -567,125 +496,427 @@
 }
 
 
-/* ===== GRADIENT ANIMATION ===== */
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+/* PORTRAIT MODE - Vertical layouts */
+@media (orientation: portrait) {
+    
+    /* ===== BASE PORTRAIT STYLES (applies to all portrait devices) ===== */
+    .left-banner {
+        display: flex;
+        flex-direction: column;
+        box-shadow: none !important;
+        background: var(--body-bg) !important;  /* Match right section */
+    }
+    
+    .right-content {
+        box-shadow: none !important;
+    }
+    
+    .container {
+        box-shadow: none !important;
+    }
+    
+    /* Section ordering - consistent for all portrait */
+    .about-section { order: 1; }
+    .timeline-section { order: 2; }
+    .skills-section { order: 3; }
+    
+    /* Profile image - padding from top for all portrait */
+    .profile-image {
+        margin-top: 1rem;  /* Add space between top of screen and profile image */
+    }
+    
+    /* Header styles - consistent for all portrait */
+    .section-header {
+        font-size: 1.2rem;
+    }
+    
+    .section-header-lg {
+        font-size: 1.2rem !important;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        font-family: var(--font-heading);
+    }
+    
+    .section-header-lg::after {
+        width: 60px;
+        height: 3px;
+    }
+    
+    /* ===== PORTRAIT PHONES (narrow) ===== */
+    @media (max-width: 600px) {
+        
+        /* Timeline */
+        .timeline-dot { 
+            left: 3.55rem; 
+        }
+        
+        .timeline-year { 
+            top: 13px; 
+            font-size: 1rem;
+        }
+        
+        /* Projects */
+        .projects-grid { 
+            grid-template-columns: 1fr; 
+        }
+        
+        /* Theme Toggle */
+        .theme-switch {
+            width: 64px;
+            height: 36px;
+        }
+        
+        .theme-switch::after {
+            width: 32px !important;
+            height: 32px !important;
+            top: 2px;
+            left: 2px;
+        }
+        
+        .dark-theme .theme-switch::after {
+            transform: translateX(28px) !important;
+        }
+        
+        .theme-switch i {
+            font-size: 0.95rem !important;
+            line-height: 36px;
+            position: relative;
+            top: -1px;
+        }
+        
+        .dark-theme .theme-switch .fa-moon {
+            position: relative;
+            top: 0px;
+            left: -2px;
+        }
+        
+        /* Social Icons */
+        .social-links {
+            gap: 0.7rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-icon .fa-file-pdf,
+        .social-icon .fa-file-lines,
+        .social-icon[href*="cv"] i,
+        .social-icon[href*="resume"] i {
+            font-size: 1rem;
+        }
+        
+        .social-icon .fa-envelope {
+            font-size: 1.1rem;
+        }
+        
+        .social-icon .fa-github,
+        .social-icon .fa-linkedin {
+            font-size: 1.2rem;
+        }
+        
+        /* Back to Top */
+        .back-to-top {
+            margin: 0.5rem auto;
+        }
+    }
+    
+    /* ===== PORTRAIT TABLETS (wider) ===== */
+    @media (min-width: 601px) {
+        
+        /* Left/Right padding consistency */
+        .left-banner {
+            padding: 1rem;
+        }
+        
+        .right-content {
+            padding: 1rem !important;
+        }
+        
+        /* Left Banner Skills */
+        .skill-button {
+            padding: 0.25rem 0.6rem;
+            font-size: 0.75rem;
+            border-radius: 16px;
+        }
+        
+        /* Timeline */
+        .timeline-dot { 
+            left: 4rem; 
+        }
+        
+        /* Project Tiles - Overlay */
+        .project-tile .overlay-content {
+            padding: 0.6rem 1rem;
+        }
+        
+        .project-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .project-skills {
+            gap: 0.3rem;
+        }
+        
+        .project-skills .skill {
+            font-size: 0.6rem;
+            padding: 0.1rem 0.4rem;
+        }
+        
+        /* Projects Grid */
+        .projects-grid { 
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.3rem;
+        }
+    }
 }
 
-
-/* ===== RESPONSIVE BREAKPOINTS ===== */
-
-/* Tablet and Mobile Shared Styles (under 1200px) */
-@media (max-width: 1199px) {
-    /* Left banner reordering */
+/* LANDSCAPE MODE - Horizontal layouts */
+@media (orientation: landscape) {
+    
     .left-banner {
         display: flex;
         flex-direction: column;
     }
     
-    .skills-section { order: 3; }
-    .timeline-section { order: 2; }
-    .about-section { order: 1; }
-    
-    /* Typography */
-    .projects-heading {
-        font-size: 1.3rem !important;
-        font-weight: 600;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        font-family: var(--font-heading);
-    }
-    
-    .projects-heading::after {
-        width: 80px;
-        height: 3px;
-    }
-    
-    /* Project tiles */
-    .project-tile {
-        aspect-ratio: 16 / 9 !important;
-    }
-    
-    /* Timeline adjustments */
-    .timeline-dot {
-        left: 4rem;
-    }
-    
-    .timeline::before {
-        left: 4rem;
-    }
-}
-
-/* Tablet (769px - 1199px) */
-@media (min-width: 769px) and (max-width: 1199px) {
-    .projects-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.8rem;
-    }
-    
-    .timeline-dot {
-        left: 4.05rem;
-    }
-}
-
-/* Mobile (up to 768px) */
-@media (max-width: 768px) {
-    .right-content {
-        margin-left: 0;
-        padding: 1rem;
-    }
-    
-    .projects-grid {
-        grid-template-columns: 1fr;
-        gap: 4px;
-    }
-    
-    .timeline-year {
-        font-size: 1rem;
-        position: relative;
-        top: 13px;
-        display: block;
-    }
-
-    .timeline-header {
-        margin-top: 10px;
-    }
-    
-    /* Portrait specific */
-    @media (orientation: portrait) {
-        .timeline-section {
-            margin-bottom: 0.5rem !important;
+    /* Landscape phones (limited height) */
+    @media (max-width: 900px) {
+        
+        /* ===== LAYOUT & ORDER ===== */
+        .about-section { order: 1; }
+        .timeline-section { order: 2; }
+        .skills-section { order: 3; }
+        
+        .left-banner {
+            padding: 1rem;
+            box-shadow: none !important;
+            background: var(--body-bg) !important;  /* Match right section background */
         }
-
-        .timeline-dot {
-            left: 3.55rem;
+        
+        .right-content {
+            box-shadow: none !important;
         }
-
+        
+        .container {
+            box-shadow: none !important;
+        }
+        
+        /* ===== TYPOGRAPHY ===== */
+        .section-header {
+            font-size: 1.3rem !important;
+        }
+        
+        .section-header-lg {
+            font-size: 1.3rem !important;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            font-family: var(--font-heading);
+        }
+        
+        .section-header-lg::after {
+            width: 100px;
+            height: 3px;
+        }
+        
+        .about-section p,
+        .timeline-description p,
+        .skill-button,
+        .location,
+        .title {
+            font-size: 0.95rem !important;
+        }
+        
+        /* ===== TIMELINE ===== */
+        .timeline-dot { 
+            left: 4.05rem; 
+        }
+        
+        .timeline-year {
+            top: 5px;
+            font-size: 1rem;
+        }
+        
+        .timeline-company {
+            font-size: 0.9rem;
+        }
+        
+        .timeline-title-group h4 {
+            font-size: 1.1rem;
+        }
+        
+        /* ===== PROJECTS GRID ===== */
+        .projects-grid { 
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.4rem;
+        }
+        
+        .project-tile {
+            aspect-ratio: 1/1;
+        }
+        
+        /* ===== THEME TOGGLE ===== */
         .theme-switch {
-            width: 64px !important;
-            height: 36px !important;
-            
-            &::after {
-                width: 32px !important;
-                height: 32px !important;
-            }
-            
-            i {
-                font-size: 0.95rem !important;
-            }
+            width: 64px;
+            height: 36px;
+        }
+        
+        .theme-switch::after {
+            width: 32px !important;
+            height: 32px !important;
+            top: 2px;
+            left: 2px;
         }
         
         .dark-theme .theme-switch::after {
-            transform: translateX(30px) !important;
+            transform: translateX(28px) !important;
+        }
+        
+        .theme-switch i {
+            font-size: 1rem !important;
+        }
+        
+        /* ===== SOCIAL ICONS ===== */
+        .social-icon {
+            width: 36px;
+            height: 36px;
+        }
+        
+        /* CV/PDF icon - smaller */
+        .social-icon .fa-file-pdf,
+        .social-icon .fa-file-lines,
+        .social-icon[href*="cv"] i,
+        .social-icon[href*="resume"] i {
+            font-size: 1rem;
+        }
+        
+        /* Social media icons - keep original size */
+        .social-icon .fa-github,
+        .social-icon .fa-linkedin,
+        .social-icon .fa-twitter,
+        .social-icon .fa-envelope {
+            font-size: 1.2rem;
+        }
+        
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            margin: 0.5rem auto 1.5rem auto;
         }
     }
     
-    /* Landscape specific */
-    @media (orientation: landscape) {
-        .timeline-dot {
-            left: 4.05rem;
+    /* Landscape tablets & desktop (plenty of room) */
+    @media (min-width: 901px) {
+        
+        /* ===== LEFT BANNER - NARROWER ===== */
+        .left-banner {
+            width: 340px;  /* Reduced from 420px */
+        }
+        
+        .right-content {
+            margin-left: 340px;  /* Match new banner width */
+            width: calc(100% - 340px);
+        }
+        
+        /* ===== TYPOGRAPHY - SLIGHTLY SMALLER TEXT ===== */
+        /* Description text */
+        .about-section p,
+        .timeline-description p,
+        .skill-button,
+        .location,
+        .title {
+            font-size: 0.85rem;  /* Reduced from 0.9rem */
+        }
+        
+        /* Timeline specific */
+        .timeline-year {
+            font-size: 0.85rem;  /* Reduced from 0.9rem */
+        }
+        
+        .timeline-company {
+            font-size: 0.75rem;  /* Reduced from 0.8rem */
+        }
+        
+        .timeline-title-group h4 {
+            font-size: 0.95rem;  /* Reduced from 1rem */
+        }
+        
+        /* ===== LEFT BANNER SKILL BUTTONS ===== */
+        .skill-button {
+            padding: 0.3rem 0.7rem;  /* Reduced from 0.4rem 0.8rem */
+            font-size: 0.75rem;  /* Smaller than description text */
+        }
+        
+        /* ===== SOCIAL MEDIA BUTTONS ===== */
+        .social-links {
+            gap: 0.7rem;  /* Reduced from 1rem */
+            margin-bottom: 1.5rem;  /* Slightly reduced */
+        }
+        
+        .social-icon {
+            width: 32px;  /* Reduced from 40px */
+            height: 32px; /* Reduced from 40px */
+        }
+        
+        /* Social media icons */
+        .social-icon i {
+            font-size: 1rem;  /* Reduced from 1.2rem */
+        }
+        
+        /* CV/PDF icon - slightly smaller to match */
+        .social-icon .fa-file-pdf,
+        .social-icon .fa-file-lines {
+            font-size: 0.9rem;  /* Slightly smaller than other icons */
+        }
+        
+        /* ===== THEME TOGGLE ===== */
+        .theme-switch {
+            width: 56px;  /* Reduced from 70px */
+            height: 32px; /* Reduced from 40px */
+        }
+        
+        .theme-switch::after {
+            width: 28px;  /* Reduced from 38px */
+            height: 28px; /* Reduced from 38px */
+            top: 2px;
+            left: 2px;
+        }
+        
+        .dark-theme .theme-switch::after {
+            transform: translateX(24px);  /* 56px - 28px - 4px padding */
+        }
+        
+        .theme-switch i {
+            font-size: 0.85rem;  /* Reduced from 1rem */
+        }
+        
+        /* ===== PROJECT TITLES - SMALLER ===== */
+        .project-title {
+            font-size: 1.1rem;  /* Reduced from 1.3rem */
+        }
+        
+        /* ===== PROJECT SKILLS - SMALLER ===== */
+        .project-skills .skill {
+            font-size: 0.6rem;  /* Reduced from 0.7rem */
+            padding: 0.15rem 0.5rem;  /* Slightly smaller padding */
+        }
+        
+        /* ===== PROJECT TILES - REDUCED GAP ===== */
+        .projects-grid { 
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;  /* Reduced from 0.8rem */
+        }
+        
+        /* ===== BACK TO TOP ===== */
+        .back-to-top { 
+            display: none; 
         }
     }
 }
@@ -699,25 +930,5 @@
 
     .back-to-top {
         display: none !important;
-    }
-}
-
-/* ===== BACK TO TOP BUTTON - RESPONSIVE ===== */
-.project-navigation-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.back-to-top {
-    margin: 0.5rem auto;
-    
-    @media (max-width: 768px) and (orientation: portrait) {
-        margin: 0.5rem auto 0.5rem auto;
-    }
-    
-    @media (max-width: 1199px) and (orientation: landscape) {
-        margin: 0.5rem auto 1.5rem auto;
     }
 }

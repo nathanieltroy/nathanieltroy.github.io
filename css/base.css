@@ -69,6 +69,53 @@
     --gradient-multicolor: linear-gradient(90deg, #91bbb8, #2c5f2d, #0d2a4e, #91bbb8);
 }
 
+/* ===== REUSABLE SECTION HEADERS ===== */
+.section-header {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.section-header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--gradient-multicolor);
+    background-size: 200% 100%;
+    border-radius: 2px;
+    animation: gradientShift 8s ease infinite;
+}
+
+.section-header-lg {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    position: relative;
+    padding-bottom: 0.7rem;
+}
+
+.section-header-lg::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 200px;
+    height: 4px;
+    background: var(--gradient-multicolor);
+    background-size: 200% 100%;
+    border-radius: 2px;
+    animation: gradientShift 8s ease infinite;
+}
+
 body {
     font-family: var(--font-body);
     font-weight: 300;
@@ -101,9 +148,9 @@ body {
     z-index: 100; /* Ensure banner stays above content */
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling - ORIGINAL version (no landscape modifications) */
 .left-banner::-webkit-scrollbar {
-    width: 5px;
+    width: 5px;  /* Back to original 5px */
 }
 
 .left-banner::-webkit-scrollbar-track {
@@ -274,6 +321,12 @@ body {
     to {opacity: 1;}
 }
 
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 @keyframes flipDiagonal {
     0% { transform: rotate3d(1, -1, 0, 0deg); }
     49.99% { transform: rotate3d(1, -1, 0, 90deg); }
@@ -317,8 +370,13 @@ body {
     opacity: 0.98;
 }
 
-/* ===== MOBILE OVERRIDES FOR BASE LAYOUT ===== */
-@media (max-width: 768px) {
+/* ===== RESPONSIVE BASE LAYOUT ===== */
+/* Following same orientation-first pattern as homepage */
+
+/* PORTRAIT MODE - Vertical layouts */
+@media (orientation: portrait) {
+    
+    /* Container becomes column on all portrait devices */
     .container {
         flex-direction: column;
     }
@@ -328,49 +386,143 @@ body {
         width: 100% !important;
         height: auto !important;
         min-height: auto !important;
-        padding: 1rem !important;
         box-shadow: 0 2px 10px var(--shadow);
     }
     
     .right-content {
         margin-left: 0 !important;
         width: 100% !important;
-        padding: 1.5rem !important;
     }
     
-    /* Toast notification mobile styles */
+    /* Toast notification - base portrait positioning */
     .toast-notification {
         bottom: 20px;
         font-size: 0.8rem;
         padding: 8px 20px;
     }
+    
+    /* Portrait phones (narrow) */
+    @media (max-width: 600px) {
+        .left-banner {
+            padding: 0.75rem !important;
+        }
+        
+        .right-content {
+            padding: 1rem !important;
+        }
+        
+        .social-links {
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-icon {
+            width: 36px;
+            height: 36px;
+        }
+    }
+    
+    /* Portrait tablets (wider) */
+    @media (min-width: 601px) {
+        .left-banner {
+            padding: 1rem !important;
+        }
+        
+        .right-content {
+            padding: 1.5rem !important;
+        }
+        
+        .social-links {
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+        }
+    }
+    
+    /* Portrait mode with bottom banner - specific toast adjustment */
+    @media (max-width: 768px) and (orientation: portrait) {
+        .toast-notification {
+            bottom: 90px;  /* Position above bottom banner */
+        }
+    }
 }
 
-/* For portrait mode with bottom banner */
-@media (max-width: 768px) and (orientation: portrait) {
-    .toast-notification {
-        bottom: 90px;  /* Position above the bottom banner */
+/* LANDSCAPE MODE - Horizontal layouts */
+@media (orientation: landscape) {
+    
+    /* Container stays row on landscape (unless small) */
+    .container {
+        flex-direction: row;  /* Default for landscape */
+    }
+    
+    /* Landscape phones (limited height) */
+    @media (max-width: 900px) {
+        .container {
+            flex-direction: column;  /* Stack on small landscape phones */
+        }
+        
+        .left-banner {
+            position: relative;
+            width: 100% !important;
+            height: auto !important;
+            min-height: auto !important;
+            padding: 0.75rem !important;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+        
+        .right-content {
+            margin-left: 0 !important;
+            width: 100% !important;
+            padding: 1rem !important;
+        }
+        
+        .social-links {
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-icon {
+            width: 36px;
+            height: 36px;
+        }
+        
+        .toast-notification {
+            bottom: 20px;
+            font-size: 0.8rem;
+            padding: 8px 20px;
+        }
+    }
+    
+    /* Landscape tablets & desktop */
+    @media (min-width: 901px) {
+        /* Keep default desktop layout */
+        .left-banner {
+            width: 420px;
+            padding: 2rem 1.5rem;
+        }
+        
+        .right-content {
+            margin-left: 420px;
+            padding: 3rem;
+        }
+        
+        .social-links {
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+        }
     }
 }
 
-/* Small phone adjustments */
-@media (max-width: 480px) {
-    .left-banner {
-        padding: 0.75rem !important;
-    }
-    
-    .right-content {
-        padding: 1rem !important;
-    }
-    
-    .social-links {
-        gap: 0.75rem;
-        margin-bottom: 1rem;
-    }
-    
-    .social-icon {
-        width: 36px;
-        height: 36px;
-    }
-
+/* Desktop (1200px and up) - Additional overrides if needed */
+@media (min-width: 1200px) {
+    /* Any desktop-specific styles */
 }
