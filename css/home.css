@@ -631,7 +631,7 @@
         .project-overlay {
             transform: translateY(calc(100% - 80px));  /* Show less on small screens */
         }
-        
+
         .project-skills .skill {
             font-size: 0.7rem;
             padding: 0.1rem 0.4rem;
@@ -887,7 +887,7 @@
     }
     
     /* ===== LANDSCAPE TABLETS & DESKTOP (plenty of room) ===== */
-    @media (min-width: 901px) {
+    @media (min-width: 901px) and (max-width: 1199px) {
         
         /* Section ordering for landscape tablets */
         .about-section { order: 1; }
