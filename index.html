@@ -19,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nathaniel Troy Portfolio</title>
 
-    <!-- Font Awesome for icons (updated to include all icon sets) -->
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,15 +54,12 @@
                 <a href="https://github.com/nathanieltroy" target="_blank" class="social-icon">
                     <i class="fab fa-github"></i>
                 </a>
-                <!-- Changed from Twitter to CV icon -->
                 <a href="Nathaniel Troy CV.pdf" target="_blank" class="social-icon cv-icon">
-                    <i class="fas fa-file-pdf"></i>  <!-- PDF icon for CV -->
+                    <i class="fas fa-file-pdf"></i>
                 </a>
-                <!-- Email copy button -->
                 <button class="social-icon email-copy-btn" id="email-copy-btn" title="Copy email address">
                     <i class="fas fa-envelope"></i>
                 </button>
-                <!-- Theme Toggle (moved inside social-links but positioned) -->
                 <div class="theme-toggle">
                     <button class="theme-switch" id="theme-switch">
                         <i class="fas fa-sun"></i>
@@ -88,55 +85,111 @@
                 </div>
             </div>
 
-            <!-- Timeline Section (homepage only) -->
+            <!-- Timeline Section - Restructured -->
             <div class="timeline-section">
-                <h3 class="section-header">Education & Experience</h3>
-                <div class="timeline">
-                    <!-- Timeline Item 1 -->
-                    <div class="timeline-item">
-                        <div class="timeline-left">
+                <h3 class="section-header">Employment</h3>
+                
+                <div class="timeline-container">
+                    <!-- 2024 Group -->
+                    <div class="timeline-year-group">
+                        <div class="timeline-item" data-year="2024" data-month="03">
+                            <div class="timeline-row">
+                                <span class="timeline-month">March</span>
+                                <div class="timeline-circle"></div>
+                                <span class="timeline-title">Senior Developer</span>
+                                <button class="timeline-toggle">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div class="timeline-company">Acme Inc.</div>
+                            <div class="timeline-description">
+                                <p>Led development of core products, managed team of 5 developers, implemented agile methodologies.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" data-year="2024" data-month="02">
+                            <div class="timeline-row">
+                                <span class="timeline-month">February</span>
+                                <div class="timeline-circle"></div>
+                                <span class="timeline-title">Lead Designer</span>
+                                <button class="timeline-toggle">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div class="timeline-company">Design Co.</div>
+                            <div class="timeline-description">
+                                <p>Redesigned company website, created design system, improved UX metrics by 40%.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-year-line">
+                            <span class="timeline-year">2024</span>
+                            <div class="timeline-year-line-horizontal"></div>
+                        </div>
+                    </div>
+
+                    <!-- 2023 Group -->
+                    <div class="timeline-year-group">
+                        <div class="timeline-item" data-year="2023" data-month="06">
+                            <div class="timeline-row">
+                                <span class="timeline-month">June</span>
+                                <div class="timeline-circle"></div>
+                                <span class="timeline-title">Mid Developer</span>
+                                <button class="timeline-toggle">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div class="timeline-company">Beta Corp.</div>
+                            <div class="timeline-description">
+                                <p>Developed new features, maintained legacy code, mentored junior developers.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" data-year="2023" data-month="01">
+                            <div class="timeline-row">
+                                <span class="timeline-month">January</span>
+                                <div class="timeline-circle"></div>
+                                <span class="timeline-title">Junior Developer</span>
+                                <button class="timeline-toggle">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div class="timeline-company">Beta Corp.</div>
+                            <div class="timeline-description">
+                                <p>Started as junior developer, learned the codebase, contributed to feature development.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-year-line">
                             <span class="timeline-year">2023</span>
+                            <div class="timeline-year-line-horizontal"></div>
                         </div>
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-right">
-                            <div class="timeline-header">
-                                <div class="timeline-title-group">
-                                    <h4>Job Title</h4>
-                                    <span class="timeline-company">Company Name</span>
-                                </div>
+                    </div>
+
+                    <!-- 2022 Group -->
+                    <div class="timeline-year-group">
+                        <div class="timeline-item" data-year="2022" data-month="08">
+                            <div class="timeline-row">
+                                <span class="timeline-month">August</span>
+                                <div class="timeline-circle"></div>
+                                <span class="timeline-title">Intern</span>
                                 <button class="timeline-toggle">
                                     <i class="fas fa-chevron-down"></i>
                                 </button>
                             </div>
+                            <div class="timeline-company">Startup Co.</div>
                             <div class="timeline-description">
-                                <p>Description of your role, responsibilities, and achievements. This can be multiple sentences that describe what you did and accomplished.</p>
+                                <p>Summer internship, worked on frontend features, learned React and modern development practices.</p>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Timeline Item 2 -->
-                    <div class="timeline-item">
-                        <div class="timeline-left">
+
+                        <div class="timeline-year-line">
                             <span class="timeline-year">2022</span>
-                        </div>
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-right">
-                            <div class="timeline-header">
-                                <div class="timeline-title-group">
-                                    <h4>Previous Job Title</h4>
-                                    <span class="timeline-company">Previous Company</span>
-                                </div>
-                                <button class="timeline-toggle">
-                                    <i class="fas fa-chevron-down"></i>
-                                </button>
-                            </div>
-                            <div class="timeline-description">
-                                <p>Description of your previous role, responsibilities, and achievements.</p>
-                            </div>
+                            <div class="timeline-year-line-horizontal"></div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> <!-- End timeline-container -->
+            </div> <!-- End timeline-section -->
         </aside>
 
         <!-- RIGHT PROJECT TILES SECTION -->
@@ -146,15 +199,13 @@
                 <!-- Project tiles will be populated by JavaScript -->
             </div>
 
-            <!-- Add this container for the button -->
             <div class="project-navigation-container">
-                <!-- Back to Top Button -->
                 <button class="back-to-top" id="back-to-top-btn">
                     <i class="fas fa-chevron-up"></i>
                 </button>
             </div>
         </main>
-    </div>
+    </div> <!-- End container -->
 
     <!-- Link to JavaScript -->
     <script src="js/theme-manager.js"></script>
@@ -164,18 +215,15 @@
     <!-- Page Transition Script -->
     <script>
         (function() {
-            // Check if we're coming from a transition
             if (sessionStorage.getItem('pageTransition') === 'true') {
                 document.body.classList.add('page-transition');
                 sessionStorage.removeItem('pageTransition');
                 
-                // Remove transition class after animation completes
                 setTimeout(() => {
                     document.body.classList.remove('page-transition');
                 }, 500);
             }
             
-            // Add transition flag when clicking internal links
             document.addEventListener('click', function(e) {
                 const link = e.target.closest('a');
                 if (!link) return;
@@ -183,21 +231,17 @@
                 const href = link.getAttribute('href');
                 if (!href) return;
                 
-                // Check if it's an internal link - UPDATED to handle new project URL structure
                 if (href.includes('index.html') || 
                     href.includes('project.html') || 
                     href === '/' || 
                     href.startsWith('#')) {
                     
-                    // Skip if new tab
                     if (link.target === '_blank') return;
                     
-                    // Set transition flag
                     sessionStorage.setItem('pageTransition', 'true');
                 }
             });
         })();
     </script>
-
 </body>
 </html>
