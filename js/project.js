@@ -88,99 +88,64 @@ function populateProjectPage(project) {
 function generateArticleContent(project) {
     let html = '';
     
-    // Overview paragraphs
-    if (project.content && project.content.overview) {
-        const overviewParagraphs = project.content.overview.split('\n\n');
-        overviewParagraphs.forEach(para => {
-            if (para.trim()) {
-                html += `<p>${para.trim()}</p>\n\n`;
-            }
-        });
-    } else {
-        html += `<p>${project.description}</p>\n\n`;
+    if (!project.content || !project.content.sections) {
+        return html;
     }
     
-    // Pull quote
-    if (project.pullQuote) {
-        html += `<div class="pull-quote">"${project.pullQuote}"</div>\n\n`;
-    }
-    
-    // Technical deep dive
-    if (project.content && project.content.technicalDeepDive) {
-        html += `<p>${project.content.technicalDeepDive}</p>\n\n`;
-    }
-    
-    // First image from gallery as figure
-    if (project.images && project.images.length > 1) {
-        html += `
-            <figure class="article-image">
-                <img src="${project.images[1]}" alt="Technical implementation diagram">
-                <figcaption>Figure 1: System architecture showing data flow between components</figcaption>
-            </figure>
-        \n\n`;
-    }
-    
-    // Key Features
-    if (project.content && project.content.keyFeatures) {
-        html += `<h2>Key Features</h2>\n\n`;
-        
-        project.content.keyFeatures.forEach(feature => {
-            html += `<p><strong>${feature.title}:</strong> ${feature.description}</p>\n\n`;
-        });
-    }
-    
-    // Image grid if we have at least 3 images
-    if (project.images && project.images.length >= 3) {
-        html += `
-            <div class="article-image-grid">
-                <img src="${project.images[2]}" alt="Feature demonstration 1">
-                <img src="${project.images[project.images.length - 1]}" alt="Feature demonstration 2">
-            </div>
-        \n\n`;
-    }
-    
-    // Results
-    if (project.content && project.content.results) {
-        html += `<h2>Results & Outcomes</h2>\n\n`;
-        html += `<p>${project.content.results}</p>\n\n`;
-    }
-    
-    // Challenges
-    if (project.content && project.content.challenges) {
-        html += `<p>${project.content.challenges}</p>\n\n`;
-    }
-    
-    // Future Work
-    if (project.content && project.content.futureWork) {
-        html += `<h2>Future Work</h2>\n\n`;
-        html += `<p>${project.content.futureWork}</p>\n\n`;
-    }
+    project.content.sections.forEach(section => {
+        switch(section.type) {
+            case 'heading':
+                html += `<${section.level || 'h2'}>${section.text}</${section.level || 'h2'}>\n\n`;
+                break;
+                
+            case 'paragraph':
+                html += `<p>${section.text}</p>\n\n`;
+                break;
+                
+            case 'pullQuote':
+                html += `<div class="pull-quote">"${section.text}"</div>\n\n`;
+                break;
+                
+            case 'image':
+                html += `
+                    <figure class="article-image">
+                        <img src="${section.src}" alt="${section.caption || ''}">
+                        ${section.caption ? `<figcaption>${section.caption}</figcaption>` : ''}
+                    </figure>\n\n`;
+                break;
+                
+            case 'feature-list':
+                html += `<div class="feature-list">\n`;
+                section.features.forEach(feature => {
+                    html += `<p><strong>${feature.title}:</strong> ${feature.description}</p>\n\n`;
+                });
+                html += `</div>\n\n`;
+                break;
+
+            case 'bullet-list':
+                html += `<${section.level || 'h2'}>${section.title}</${section.level || 'h2'}>\n\n`; // Optional heading
+                html += `<ul>\n`;
+                section.items.forEach(item => {
+                    html += `<li>${item}</li>\n`;
+                });
+                html += `</ul>\n\n`;
+                break;
+                
+            case 'code':
+                html += `<pre><code class="language-${section.language || 'text'}">${section.text}</code></pre>\n\n`;
+                break;
+                
+            case 'image-grid':
+                html += `<div class="article-image-grid">\n`;
+                section.images.forEach(img => {
+                    html += `<img src="${img.src}" alt="${img.alt || ''}">\n`;
+                });
+                html += `</div>\n\n`;
+                break;
+        }
+    });
     
     return html;
-}
-
-// ===== POPULATE GALLERY =====
-function populateGallery(images) {
-    const galleryMain = document.getElementById('gallery-main-img');
-    const galleryThumbs = document.querySelector('.gallery-thumbnails');
-    
-    if (!galleryMain || !galleryThumbs) return;
-    
-    // Set first image as main
-    galleryMain.src = images[0];
-    
-    // Clear existing thumbnails
-    galleryThumbs.innerHTML = '';
-    
-    // Add new thumbnails
-    images.forEach((imgSrc, index) => {
-        const thumb = document.createElement('img');
-        thumb.src = imgSrc;
-        thumb.alt = `Gallery image ${index + 1}`;
-        thumb.className = 'gallery-thumb' + (index === 0 ? ' active' : '');
-        thumb.onclick = function() { changeGalleryImage(this); };
-        galleryThumbs.appendChild(thumb);
-    });
 }
 
 // ===== SETUP PROJECT NAVIGATION =====
