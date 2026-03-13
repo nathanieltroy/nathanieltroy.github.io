@@ -13,7 +13,8 @@
     --font-display: 'Syne', sans-serif;
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
-    
+    --font-timeline: 'Instrument Serif', serif;
+
     /* Dark theme - Cyberpunk/Neon (PRIMARY) */
     --primary-bg: #0a0c10;
     --secondary-bg: #111418;
@@ -27,6 +28,7 @@
     --card-bg: #151a24;
     --body-bg: #0c0f15;
     --border-light: #2a3440;
+    --border-light-rgb: 42, 52, 64;  /* Replace with your actual RGB values */
     --skill-bg: rgba(0, 255, 255, 0.1);
     --theme-toggle-bg: rgba(0, 255, 255, 0.15);
     --overlay-start: rgba(0, 255, 255, 0.8);
@@ -57,7 +59,8 @@
     --accent-soft: rgba(86, 129, 126, 0.15);  /* Sage with opacity */
     --card-bg: #ffffff;
     --body-bg: #f0f2f5;  /* Off-white with grey tint */
-    --border-light: #b7bcc4;  /* Industrial grey */
+    --border-light: #b7bcc4;
+    --border-light-rgb: 183, 188, 196;
     --skill-bg: #d6dadf;  /* Light industrial grey */
     --theme-toggle-bg: #b7bcc4;  /* Industrial grey */
     --overlay-start: rgba(86, 129, 126, 0.85);  /* Your sage start */

@@ -145,15 +145,16 @@
 
 .timeline-container {
     position: relative;
-    padding-left: 60px; /* Space for month labels */
+    padding-left: 50px; /* Reduced from 60px (10px less) */
+    padding-top: 20px;
 }
 
 /* Vertical timeline line - only on container */
 .timeline-container::before {
     content: '';
     position: absolute;
-    left: 80px; /* Align with circles */
-    top: 0;
+    left: 70px; /* Reduced from 80px (10px less) */
+    top: 20px;
     bottom: 0;
     width: 2px;
     background: var(--border-light);
@@ -186,10 +187,10 @@
 .timeline-month {
     width: 70px;
     text-align: right;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     position: absolute;
-    left: -70px;
-    font-family: var(--font-body);
+    left: -70px; /* This stays the same - it's relative to its parent */
+    font-family: var(--font-timeline);
     font-weight: 600;
     color: var(--text-secondary);
     transform: translateY(-1px);
@@ -222,6 +223,7 @@
     padding: 5px;
     color: var(--accent-primary);
     margin-left: auto;
+    font-size: 1rem;
 }
 
 .timeline-toggle i {
@@ -233,7 +235,7 @@
 }
 
 .timeline-company {
-    margin-left: 42px;
+    margin-left: 43px; /* Reduced from 43px (10px less) */
     font-size: 0.8rem;
     font-style: italic;
     color: var(--text-muted);
@@ -245,7 +247,7 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
-    margin-left: 43px;
+    margin-left: 43px; /* Reduced from 43px (10px less) */
     font-size: 0.85rem;
     color: var(--text-secondary);
     line-height: 1.5;
@@ -269,15 +271,15 @@
 
 .timeline-year {
     font-weight: 700;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
     position: absolute;
-    left: -53px;
-    transform: translateY(-3px);
+    left: -55px; /* Reduced from -53px (10px less) */
+    transform: translateY(-2px);
     width: 50px;
     text-align: right;
-    font-family: var(--font-body);
-    letter-spacing: 0.5px;
+    font-family: var(--font-timeline);
+    letter-spacing: 1px;
 }
 
 .timeline-year-line-horizontal {
@@ -290,15 +292,80 @@
     z-index: 1;
 }
 
+/* Dotted line at start of timeline */
+.timeline-extension-top {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.timeline-extension-top::before {
+    content: '';
+    position: absolute;
+    left: 20px; /* Reduced from 20px (10px less) */
+    bottom: 100%;
+    width: 2px;
+    height: 25px;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(var(--border-light-rgb), 0.4) 0px,
+        transparent 1px,
+        transparent 3px,
+        rgba(var(--border-light-rgb), 0.5) 3px,
+        rgba(var(--border-light-rgb), 0.5) 5px,
+        transparent 5px,
+        transparent 7px,
+        rgba(var(--border-light-rgb), 0.6) 7px,
+        rgba(var(--border-light-rgb), 0.6) 9px,
+        transparent 9px,
+        transparent 11px,
+        rgba(var(--border-light-rgb), 0.7) 11px,
+        rgba(var(--border-light-rgb), 0.7) 14px,
+        transparent 14px,
+        transparent 16px,
+        rgba(var(--border-light-rgb), 0.8) 16px,
+        rgba(var(--border-light-rgb), 0.8) 20px,
+        transparent 20px,
+        transparent 21px,
+        rgba(var(--border-light-rgb), 0.9) 21px,
+        rgba(var(--border-light-rgb), 0.9) 25px
+    );
+    z-index: 1;
+}
+
 /* Extend the timeline line below the last year group */
 .timeline-year-group:last-child::after {
     content: '';
     position: absolute;
-    left: 20px; /* Same as timeline line */
-    top: 100%; /* Start at bottom of last group */
-    width: 2px; /* Same thickness */
-    height: 10px; /* Desired extension length */
-    background: var(--border-light); /* Same color */
+    left: 20px; /* Reduced from 20px (10px less) */
+    top: 100%;
+    width: 2px;
+    height: 25px;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(var(--border-light-rgb), 0.9) 0px,
+        rgba(var(--border-light-rgb), 0.9) 4px,
+        transparent 4px,
+        transparent 6px,
+        rgba(var(--border-light-rgb), 0.8) 6px,
+        rgba(var(--border-light-rgb), 0.8) 10px,
+        transparent 10px,
+        transparent 12px,
+        rgba(var(--border-light-rgb), 0.7) 12px,
+        rgba(var(--border-light-rgb), 0.7) 15px,
+        transparent 15px,
+        transparent 17px,
+        rgba(var(--border-light-rgb), 0.6) 17px,
+        rgba(var(--border-light-rgb), 0.6) 19px,
+        transparent 19px,
+        transparent 21px,
+        rgba(var(--border-light-rgb), 0.5) 21px,
+        rgba(var(--border-light-rgb), 0.5) 23px,
+        transparent 23px,
+        transparent 24px,
+        rgba(var(--border-light-rgb), 0.4) 24px,
+        rgba(var(--border-light-rgb), 0.4) 25px
+    );
     z-index: 1;
 }
 
