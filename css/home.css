@@ -262,7 +262,7 @@
 /* Year Line */
 .timeline-year-line {
     position: relative;
-    margin: 8px 0 10px 0;
+    margin: 8px 0 10px 6px;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -272,10 +272,10 @@
 .timeline-year {
     font-weight: 700;
     font-size: 0.7rem;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     position: absolute;
     left: -55px; /* Reduced from -53px (10px less) */
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     width: 50px;
     text-align: right;
     font-family: var(--font-timeline);
@@ -285,7 +285,7 @@
 .timeline-year-line-horizontal {
     flex: 0 0 auto; 
     height: 1px;
-    width: 40px;
+    width: 30px;
     background: var(--border-light);
     opacity: 0.8;
     position: relative;
@@ -302,7 +302,7 @@
 .timeline-extension-top::before {
     content: '';
     position: absolute;
-    left: 20px; /* Reduced from 20px (10px less) */
+    left: 14px; /* Reduced from 20px (10px less) */
     bottom: 100%;
     width: 2px;
     height: 25px;
@@ -633,19 +633,28 @@
         width: 60px;
         height: 3px;
     }
+
+    /* Timeline */      
+    .timeline-month { 
+        font-size: 0.8rem;
+        transform: translateY(0px); /* Moves year text up by 10px */
+    }  
+    .timeline-year { 
+        font-size: 0.6rem;
+        transform: translateY(-2px); /* Moves year text up by 10px */
+    }  
+    .timeline-description {
+        font-size: 0.75rem; /* Reduced from 0.85rem for better mobile readability */
+    }
+    .timeline-item {
+        margin-bottom: 2px; /* Reduced from 20px to tighten vertical spacing */
+    }    
+    .timeline-year-line {
+        margin: 2px 0 4px 6px; /* Reduced from 8px 0 10px 6px - less vertical space around year markers */
+    }
     
     /* ===== PORTRAIT PHONES (narrow) ===== */
     @media (max-width: 600px) {
-        
-        /* Timeline */
-        .timeline-dot { 
-            left: 3.55rem; 
-        }
-        
-        .timeline-year { 
-            top: 13px; 
-            font-size: 1rem;
-        }
         
         /* Projects */
         .projects-grid { 
@@ -795,6 +804,29 @@
         display: flex;
         flex-direction: column;
     }
+
+    /* Timeline */      
+    .timeline-month { 
+        font-size: 0.9rem;
+        transform: translateY(-1px); /* Moves year text up by 1px */
+    }  
+    .timeline-year { 
+        font-size: 0.7rem;
+        transform: translateY(-2px); /* Moves year text up by 10px */
+    }  
+    .timeline-company {
+        font-size: 0.9rem; /* Reduced from 0.85rem for better mobile readability */
+    }  
+    .timeline-description {
+        font-size: 0.9rem; /* Reduced from 0.85rem for better mobile readability */
+    }
+    .timeline-item {
+        margin-bottom: 2px; /* Reduced from 20px to tighten vertical spacing */
+    }    
+    .timeline-year-line {
+        margin: 2px 0 4px 6px; /* Reduced from 8px 0 10px 6px - less vertical space around year markers */
+    }
+    
     
     /* ===== LANDSCAPE PHONES (limited height) ===== */
     @media (max-width: 900px) {
@@ -839,7 +871,6 @@
         }
         
         .about-section p,
-        .timeline-description p,
         .skill-button,
         .location,
         .title {
@@ -854,19 +885,6 @@
         }
         
         /* ===== TIMELINE ===== */
-        .timeline-dot { 
-            left: 4.05rem; 
-        }
-        
-        .timeline-year {
-            top: 5px;
-            font-size: 1rem;
-        }
-        
-        .timeline-company {
-            font-size: 0.9rem;
-        }
-        
         .timeline-title-group h4 {
             font-size: 1.1rem;
         }
@@ -996,21 +1014,38 @@
         
         /* ===== TYPOGRAPHY - SMALLER TEXT ===== */
         .about-section p,
-        .timeline-description p,
         .skill-button,           /* ADD THIS BACK */
         .location,
         .title {
             font-size: 0.85rem;
         }
         
+        .timeline-container {
+            padding-left: 50px; /* Reduced from 50px to shift everything left */
+        }
+        .timeline-container::before {
+            left: 70px;
+        }
+        .timeline-month {
+            font-size: 0.8rem; /* Reduced from 0.9rem for tablet */
+        }
         .timeline-year {
-            font-size: 0.85rem;
+            font-size: 0.6rem; /* Reduced from 0.7rem for tablet */
         }
-        
+        .timeline-title {
+            font-size: 0.9rem; /* Reduced from 1rem for tablet */
+        }
+        .timeline-description {
+            font-size: 0.8rem; /* Reduced from 0.9rem for tablet */
+        }
         .timeline-company {
-            font-size: 0.75rem;
+            margin-top: -3px; /* Negative margin pulls company closer to title */
+            margin-bottom: 3px; /* Reduced bottom margin */
+            font-size: 0.7rem; /* Keep company text proportional */
         }
-        
+        .timeline-toggle {
+            font-size: 0.8rem; /* Reduced from 1rem to make button smaller */
+        }
         .timeline-title-group h4 {
             font-size: 0.95rem;
         }
